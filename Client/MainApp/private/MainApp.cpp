@@ -1,9 +1,21 @@
+#include "Client_pch.h"
 #include "MainApp.h"
 #include "DefaultObj.h"
 #include "Camera_Free.h"
 #include "BoxObj.h"
 #include "Tank.h"
 #include "Terrain.h"
+
+/*-----------------
+	For Server
+-----------------*/
+#include "Client_Globals.h"
+#include "ThreadManager.h"
+#include "Session.h"
+#include "BufferReader.h"
+#include "ClientPacketHandler.h"
+#include "ServiceManager.h"
+
 
 IMPLEMENT_SINGLETON(CMainApp)
 
@@ -31,6 +43,38 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 CMainApp::CMainApp() : m_GameInstance(CGameInstance::Get_Instance()), m_Timer(CTimer::Get_Instance()), m_Input_Dev(CRawInput::Get_Instance())
 {
 }
+
+#pragma region ForServerSession
+
+class ServerSession : public PacketSession
+{
+public:
+	~ServerSession()
+	{
+	}
+
+	virtual void OnConnected() override
+	{
+		SendBufferRef sendBuffer = ClientPacketHandler::Make_C_LOGIN(1001, 100, 10);
+		Send(sendBuffer);
+	}
+
+	virtual void OnRecvPacket(BYTE* buffer, int32 len) override
+	{
+		ClientPacketHandler::HandlePacket(buffer, len);
+	}
+
+	virtual void OnSend(int32 len) override
+	{
+	}
+
+	virtual void OnDisconnected() override
+	{
+	}
+};
+
+
+#pragma endregion  Dont Touch
 
 HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 {
@@ -69,12 +113,58 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 	_matrix mat2 = XMMatrixTranslation(0.f, 5.f, 90.f);
 	m_GameInstance->AddObject("Tank", "Tank", &mat2);
 
+
 	m_GameInstance->AddObject("Terrain", "Terrain", nullptr);
+	dynamic_cast<CTank*>(m_GameInstance->GetGameObject("Tank", 0))->set_MyPlayer();
+
+#pragma region For Server
+
+	//ClientServiceRef service = MakeShared<ClientService>(
+	//	NetAddress(L"127.0.0.1", 7777),
+	//	MakeShared<IocpCore>(),
+	//	MakeShared<ServerSession>,
+	//	1);
+
+	//ASSERT_CRASH(service->Start());
+
+	//ServiceManager::GetInstace().SetService(service);
+
+	//int32 threadCount = std::thread::hardware_concurrency();
+	//for (int32 i = 0; i < threadCount; i++)
+	//{
+	//	GThreadManager->Launch([=]()
+	//		{
+	//			while (true)
+	//			{
+	//				service->GetIocpCore()->Dispatch();
+	//			}
+	//		});
+	//}
+
+
+	//while (!g_ServerConnected.load()) {
+
+	//}
+
+	//if (g_PlayerID.load() == 0) {
+	//	dynamic_cast<CTank*>(m_GameInstance->GetGameObject("Tank", 0))->set_MyPlayer();
+	//}
+	//else {
+	//	dynamic_cast<CTank*>(m_GameInstance->GetGameObject("Tank", 1))->set_MyPlayer();
+	//}
+
+
+#pragma endregion 여기 주석처리하면 서버 연결 없이 동작 가능
+
+	
+	
 
 	m_GameInstance->Execute_CommandList();
 
 	m_GameInstance->Flush_CommandQueue();
 
+	
+	
 	return S_OK;
 }
 
@@ -252,10 +342,12 @@ void CMainApp::CalculateFrameStats()
 
 		wstring fpsStr = to_wstring(fps);
 		wstring mpsfStr = to_wstring(mspf);
+		wstring ClientId = to_wstring(g_PlayerID);
 
 		wstring windowText = m_MainWndCaption +
 			L"    fps: " + fpsStr +
-			L"   mfps: " + mpsfStr;
+			L"   mfps: " + mpsfStr +
+			L"   ClientID: " + ClientId;
 
 		SetWindowText(m_hMainWnd, windowText.c_str());
 

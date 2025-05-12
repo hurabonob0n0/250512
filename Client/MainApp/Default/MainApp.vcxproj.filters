@@ -19,6 +19,21 @@
     <Filter Include="01.DefaultObj\Tank">
       <UniqueIdentifier>{17488b75-722f-4abb-8ebd-f14f15f9b763}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98.ForServer">
+      <UniqueIdentifier>{47aa2765-5e50-463f-ab17-d70c686d5da2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.ForServer\Client_Globals">
+      <UniqueIdentifier>{887a7803-05c7-488f-9dcb-c6ac493ee9a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client_Pch">
+      <UniqueIdentifier>{7fbf3937-84d2-4775-a9c3-147bb8dac87d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.ForServer\ServiceManager">
+      <UniqueIdentifier>{e4930fd1-7a10-4677-a513-e0d99c91ccc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98.ForServer\PacketHandler">
+      <UniqueIdentifier>{cc336ed7-ec91-4d01-b98a-ab0ee2c52db6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Client_Defines.h">
@@ -42,6 +57,21 @@
     <ClInclude Include="..\public\Terrain.h">
       <Filter>01.DefaultObj</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Client_pch.h">
+      <Filter>Client_Pch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ServiceManager.h">
+      <Filter>98.ForServer\ServiceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ClientPacketHandler.h">
+      <Filter>98.ForServer\PacketHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Client_Globals.h">
+      <Filter>98.ForServer\Client_Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ServerSession.h">
+      <Filter>98.ForServer\ServiceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -61,6 +91,21 @@
     </ClCompile>
     <ClCompile Include="..\private\Terrain.cpp">
       <Filter>01.DefaultObj</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Client_pch.cpp">
+      <Filter>Client_Pch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ServiceManager.cpp">
+      <Filter>98.ForServer\ServiceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ClientPacketHandler.cpp">
+      <Filter>98.ForServer\PacketHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Client_Globals.cpp">
+      <Filter>98.ForServer\Client_Globals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ServerSession.cpp">
+      <Filter>98.ForServer\ServiceManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

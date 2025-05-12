@@ -25,6 +25,16 @@ public:
 private:
 	CModel* m_VIBuffer;
 
+	bool	KeyInput = false;
+
+public:
+	void set_MyPlayer() {
+		_myPlayer = true;
+
+	}
+private:
+	bool _myPlayer = false;
+
 public:
 	void Free() override;
 	static CTank* Create();
