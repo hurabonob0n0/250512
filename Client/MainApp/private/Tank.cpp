@@ -32,19 +32,19 @@ HRESULT CTank::Initialize(void* pArg)
 void CTank::Tick(float fTimeDelta)
 {
     if (m_GameInstance->Key_Pressing(VK_UP)) {
-        m_TransformCom->Go_Straight(fTimeDelta* 10.f);
+        m_TransformCom->Go_Straight(fTimeDelta* 30.f);
     }
 
     if (m_GameInstance->Key_Pressing(VK_LEFT)) {
-        m_TransformCom->Go_Left(fTimeDelta * 10.f);
+        m_TransformCom->Go_Left(fTimeDelta * 30.f);
     }
 
     if (m_GameInstance->Key_Pressing(VK_DOWN)) {
-        m_TransformCom->Go_Backward(fTimeDelta * 10.f);
+        m_TransformCom->Go_Backward(fTimeDelta * 30.f);
     }
 
     if (m_GameInstance->Key_Pressing(VK_RIGHT)) {
-        m_TransformCom->Go_Right(fTimeDelta * 10.f);
+        m_TransformCom->Go_Right(fTimeDelta * 30.f);
     }
 
     _float4 Position;
@@ -53,7 +53,7 @@ void CTank::Tick(float fTimeDelta)
 
     float TerrainY = ((CVIBuffer_Terrain*)(m_GameInstance->GetPrototype("TerrainCom")))->Get_Terrain_Heights(Position.x, Position.z);
 
-    m_TransformCom->Set_State(CTransform::STATE_POSITION, _vector{ Position.x,TerrainY,Position.z,1.f });
+    m_TransformCom->Set_State(CTransform::STATE_POSITION, _vector{ Position.x,TerrainY-8.f,Position.z,1.f });
 
     __super::Tick(fTimeDelta);
 }
