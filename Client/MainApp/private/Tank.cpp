@@ -1,7 +1,9 @@
+#include "Client_pch.h"
 #include "Tank.h"
 #include "Client_Defines.h"
 #include "GameInstance.h"
-
+#include "ClientPacketHandler.h"
+#include "ServiceManager.h"
 
 
 CTank::CTank() : CRenderObject()
@@ -31,29 +33,56 @@ HRESULT CTank::Initialize(void* pArg)
 
 void CTank::Tick(float fTimeDelta)
 {
-    if (m_GameInstance->Key_Pressing(VK_UP)) {
-        m_TransformCom->Go_Straight(fTimeDelta* 30.f);
+    if (_myPlayer) {
+
+        if (m_GameInstance->Key_Pressing(VK_UP)) {
+            m_TransformCom->Go_Straight(fTimeDelta * 30.f);
+            //_float4 tempPosition;
+            //XMStoreFloat4(&tempPosition, m_TransformCom->Get_State(CTransform::STATE_POSITION));
+            //SendBufferRef sendBuffer = ClientPacketHandler::Make_C_MOVE(tempPosition.x, tempPosition.y, tempPosition.z);
+            //ServiceManager::GetInstace().GetService()->Broadcast(sendBuffer);
+        }
+
+        if (m_GameInstance->Key_Pressing(VK_LEFT)) {
+            m_TransformCom->Go_Left(fTimeDelta * 30.f);
+            //_float4 tempPosition;
+            //XMStoreFloat4(&tempPosition, m_TransformCom->Get_State(CTransform::STATE_POSITION));
+            //SendBufferRef sendBuffer = ClientPacketHandler::Make_C_MOVE(tempPosition.x, tempPosition.y, tempPosition.z);
+            //ServiceManager::GetInstace().GetService()->Broadcast(sendBuffer);
+
+        }
+
+        if (m_GameInstance->Key_Pressing(VK_DOWN)) {
+            m_TransformCom->Go_Backward(fTimeDelta * 30.f);
+            //_float4 tempPosition;
+            //XMStoreFloat4(&tempPosition, m_TransformCom->Get_State(CTransform::STATE_POSITION));
+            //SendBufferRef sendBuffer = ClientPacketHandler::Make_C_MOVE(tempPosition.x, tempPosition.y, tempPosition.z);
+            //ServiceManager::GetInstace().GetService()->Broadcast(sendBuffer);
+
+        }
+
+        if (m_GameInstance->Key_Pressing(VK_RIGHT)) {
+            m_TransformCom->Go_Right(fTimeDelta * 30.f);
+            //_float4 tempPosition;
+            //XMStoreFloat4(&tempPosition, m_TransformCom->Get_State(CTransform::STATE_POSITION));
+            //SendBufferRef sendBuffer = ClientPacketHandler::Make_C_MOVE(tempPosition.x, tempPosition.y, tempPosition.z);
+            //ServiceManager::GetInstace().GetService()->Broadcast(sendBuffer);
+
+        }
+
+        _float4 Position;
+
+        XMStoreFloat4(&Position, m_TransformCom->Get_State(CTransform::STATE_POSITION));
+
+        float TerrainY = ((CVIBuffer_Terrain*)(m_GameInstance->GetPrototype("TerrainCom")))->Get_Terrain_Heights(Position.x, Position.z);
+
+        m_TransformCom->Set_State(CTransform::STATE_POSITION, _vector{ Position.x,TerrainY - 8.f,Position.z,1.f });
+
     }
 
-    if (m_GameInstance->Key_Pressing(VK_LEFT)) {
-        m_TransformCom->Go_Left(fTimeDelta * 30.f);
-    }
 
-    if (m_GameInstance->Key_Pressing(VK_DOWN)) {
-        m_TransformCom->Go_Backward(fTimeDelta * 30.f);
-    }
 
-    if (m_GameInstance->Key_Pressing(VK_RIGHT)) {
-        m_TransformCom->Go_Right(fTimeDelta * 30.f);
-    }
 
-    _float4 Position;
-
-    XMStoreFloat4(&Position, m_TransformCom->Get_State(CTransform::STATE_POSITION));
-
-    float TerrainY = ((CVIBuffer_Terrain*)(m_GameInstance->GetPrototype("TerrainCom")))->Get_Terrain_Heights(Position.x, Position.z);
-
-    m_TransformCom->Set_State(CTransform::STATE_POSITION, _vector{ Position.x,TerrainY-8.f,Position.z,1.f });
 
     __super::Tick(fTimeDelta);
 }

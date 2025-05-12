@@ -64,6 +64,11 @@ public:
 		m_ObjectMgr->Set_Pos_For_Server(LayerName, ID, pos);
 	}
 
+	CGameObject* GetGameObject(string LayerName, _uint ID) {
+
+		return m_ObjectMgr->GetGameObject(LayerName, ID);
+	}
+
 public: //For MaterialMgr
 	int Add_Material(string matName, MaterialData matInstance) { return m_MaterialMgr->Add_Material(matName, matInstance); }
 

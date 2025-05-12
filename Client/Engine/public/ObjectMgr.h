@@ -31,9 +31,15 @@ public:
     void Update(const float& fTimeDelta);
     void LateUpdate(const float& fTimeDelta);
 
+    CGameObject* GetGameObject(string LayerName, _uint ID) {
+        return  m_Layers[LayerName][ID];
+    };
+
 private:
     unordered_map<string, Layer> m_Layers;
     unordered_map<string, CGameObject*> m_Prototypes;
+
+
 
 public:
     void Free() override;
