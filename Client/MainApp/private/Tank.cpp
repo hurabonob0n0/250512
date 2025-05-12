@@ -47,13 +47,13 @@ void CTank::Tick(float fTimeDelta)
         m_TransformCom->Go_Right(fTimeDelta * 10.f);
     }
 
-   /* _float4 Position;
+    _float4 Position;
 
     XMStoreFloat4(&Position, m_TransformCom->Get_State(CTransform::STATE_POSITION));
 
     float TerrainY = ((CVIBuffer_Terrain*)(m_GameInstance->GetPrototype("TerrainCom")))->Get_Terrain_Heights(Position.x, Position.z);
 
-    m_TransformCom->Set_State(CTransform::STATE_POSITION, _vector{ Position.x,TerrainY,Position.z,1.f });*/
+    m_TransformCom->Set_State(CTransform::STATE_POSITION, _vector{ Position.x,TerrainY,Position.z,1.f });
 
     __super::Tick(fTimeDelta);
 }

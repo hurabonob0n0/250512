@@ -4,6 +4,7 @@
 #include "VIBuffer_Geos.h"
 #include "Transform.h"
 #include "Model.h"
+#include "VIBuffer_Terrain.h"
 
 
 class CComponentMgr : public CBase
@@ -31,6 +32,15 @@ public:
         auto iter = m_Prototypes.find(prototypeTag);
         if (iter != m_Prototypes.end())
             return iter->second->Clone(pArg); // 복사본 반환
+
+        return nullptr;
+    }
+
+    CComponent* GetPrototype(const string& prototypeTag) const
+    {
+        auto iter = m_Prototypes.find(prototypeTag);
+        if (iter != m_Prototypes.end())
+            return iter->second; // 
 
         return nullptr;
     }

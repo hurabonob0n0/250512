@@ -39,6 +39,9 @@
     <ClInclude Include="..\public\Tank.h">
       <Filter>01.DefaultObj\Tank</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Terrain.h">
+      <Filter>01.DefaultObj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\MainApp.cpp">
@@ -55,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Tank.cpp">
       <Filter>01.DefaultObj\Tank</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Terrain.cpp">
+      <Filter>01.DefaultObj</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
