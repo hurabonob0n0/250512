@@ -213,6 +213,9 @@
     <ClInclude Include="..\public\Model.h">
       <Filter>02.Utilities\00.Component\03.Model</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Terrain.h">
+      <Filter>02.Utilities\00.Component\00.VIBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -313,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Model.cpp">
       <Filter>02.Utilities\00.Component\03.Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Terrain.cpp">
+      <Filter>02.Utilities\00.Component\00.VIBuffer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -54,10 +54,15 @@ public:		//For_FrameResourceMgr
 public: //For ComponentMgr
 	HRESULT AddPrototype(const string& prototypeTag, CComponent* pPrototype) { return m_ComponentMgr->AddPrototype(prototypeTag, pPrototype); }
 	CComponent* Get_Component(const string& prototypeTag, void* pArg = nullptr) const { return m_ComponentMgr->GetComponent(prototypeTag, pArg); }
+	CComponent* GetPrototype(const string& prototypeTag) const { return m_ComponentMgr->GetPrototype(prototypeTag); }
 
 public: //For ObjectMgr
 	HRESULT AddObject(string PrototypeTag, string layerTag, void* pArg) { return m_ObjectMgr->AddObject(PrototypeTag, layerTag, pArg); }
 	HRESULT Add_PrototypeObject(string Prototypename, CGameObject* pGameObject) { return m_ObjectMgr->Add_PrototypeObject(Prototypename, pGameObject); }
+public:
+	void Set_Pos_For_Server(string LayerName, _uint ID, float* pos) {
+		m_ObjectMgr->Set_Pos_For_Server(LayerName, ID, pos);
+	}
 
 public: //For MaterialMgr
 	int Add_Material(string matName, MaterialData matInstance) { return m_MaterialMgr->Add_Material(matName, matInstance); }

@@ -146,6 +146,7 @@
     <ClInclude Include="..\public\DefaultObj.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\public\Tank.h" />
+    <ClInclude Include="..\public\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\BoxObj.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="..\private\DefaultObj.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\private\Tank.cpp" />
+    <ClCompile Include="..\private\Terrain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
