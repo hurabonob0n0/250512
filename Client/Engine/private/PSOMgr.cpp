@@ -2,20 +2,12 @@
 
 IMPLEMENT_SINGLETON(CPSOMgr)
 
-HRESULT CPSOMgr::AddPSO(const string& PSOName, ID3D12RootSignature* pRootSignature, CShader* VS, CShader* PS,  ID3D12Device* pDevice, CPSO::INPUTLAYOUT_TYPE eLayout)
+HRESULT CPSOMgr::AddPSO(const string& PSOName, CPSO* PSOInstance)
 {
 	if (m_PSOs.find(PSOName) != m_PSOs.end())
 		return E_FAIL; // 이미 있음
 
-	CPSO* pso = CPSO::Create(pRootSignature, VS, PS,  pDevice, eLayout);
-
-	if (!pso)
-	{
-		Safe_Release(pso);
-		return E_FAIL;
-	}
-
-	m_PSOs[PSOName] = pso;
+	m_PSOs[PSOName] = PSOInstance;
 	return S_OK;
 }
 

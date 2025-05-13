@@ -23,13 +23,13 @@ VertexOut VS(VertexIn vin)
 	VertexOut vout;
 
 	// Use local vertex position as cubemap lookup vector.
-	vout.PosL = vin.PosL;
+    vout.PosL = normalize(vin.PosL);
 	
 	// Transform to world space.
-	float4 posW = float4(vin.PosL*500.f, 1.0f);
+    float4 posW = float4(vin.PosL + gView[3].rgb, 1.f);
 
 	// Always center sky about camera.
-	posW.xyz += gEyePosW;
+    //posW.xyz += gEyePosW;
 
 	// Set z = w so that z/w = 1 (i.e., skydome always on far plane).
 	vout.PosH = mul(posW, gViewProj).xyww;

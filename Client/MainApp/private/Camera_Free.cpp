@@ -43,23 +43,6 @@ void CCamera_Free::LateTick(float fTimeDelta)
 {
 	m_RendererCom->AddtoRenderObjects(m_RG, this);
 
-	auto FrameResource = m_GameInstance->Get_Current_FrameResource();
-	auto currObjectCB = FrameResource->m_ObjectCB;
-
-	XMMATRIX world = XMMatrixIdentity();
-	_matrix textransform = m_TexCoordTransformCom->Get_WorldMatrix();
-
-	world.r[0] *= 5000.f;
-	world.r[1] *= 5000.f;
-	world.r[2] *= 5000.f;
-
-	ObjectConstants objConstants{};
-	XMStoreFloat4x4(&objConstants.World, XMMatrixTranspose(world));
-	XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(textransform));
-	objConstants.MaterialIndex = m_MatIndex;
-
-	currObjectCB->CopyData(m_objCBIndex, objConstants);
-
 	__super::LateTick(fTimeDelta);
 }
 
