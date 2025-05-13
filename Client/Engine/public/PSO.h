@@ -19,17 +19,20 @@ public:
 public:
     ID3D12PipelineState* Get() const { return m_PSO; }
 
-    HRESULT Initialize(ID3D12RootSignature* pRootSignature, CShader* VS, CShader* PS, ID3D12Device* pDevice, INPUTLAYOUT_TYPE eLayout);
+public:
+    CPSO* SetInputLayout(INPUTLAYOUT_TYPE eLayout);
+    CPSO* SetVS(CShader* VS);
+    CPSO* SetPS(CShader* PS);
+    CPSO* SetRS(ID3D12RootSignature* RS);
+    CPSO* SetForSkyBox();
+    CPSO* Create_PSO();
 
 private:
     ID3D12PipelineState* m_PSO = nullptr;
     D3D12_GRAPHICS_PIPELINE_STATE_DESC m_PsoDesc{};
 
-private:
-    void SetupInputLayout(INPUTLAYOUT_TYPE eLayout);
-
 public:
-    static CPSO* Create(ID3D12RootSignature* pRootSignature, CShader* VS, CShader* PS, ID3D12Device* pDevice, INPUTLAYOUT_TYPE eLayout);
+    static CPSO* Create();
     void Free() override;
 };
 

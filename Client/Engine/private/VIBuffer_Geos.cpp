@@ -24,8 +24,8 @@ HRESULT CVIBuffer_Geos::Render()
 HRESULT CVIBuffer_Geos::Initialize_Prototype()
 {
 	GeometryGenerator geoGen;
-	GeometryGenerator::MeshData box = geoGen.CreateBox(1.f, 1.f, 1.f, 0);
-	GeometryGenerator::MeshData grid = geoGen.CreateGrid(10.0f, 10.0f, 10, 10);
+	GeometryGenerator::MeshData box = geoGen.CreateBox(1.f, 1.f, 1.f, 3);
+	GeometryGenerator::MeshData grid = geoGen.CreateGrid(20.0f, 30.0f, 60, 40);
 	GeometryGenerator::MeshData sphere = geoGen.CreateSphere(0.5f, 20, 20);
 	GeometryGenerator::MeshData cylinder = geoGen.CreateCylinder(0.5f, 0.5f, 1.0f, 20, 20);
 

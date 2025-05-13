@@ -62,13 +62,14 @@ void CCamera::LateTick(float fTimeDelta)
 	//XMMATRIX view = m_TransformCom->Get_WorldMatrix();
 
 	XMMATRIX viewProj = XMMatrixMultiply(view, proj);
-	XMMATRIX invView = XMMatrixInverse(&XMMatrixDeterminant(view), view);
+	XMMATRIX invView = XMMatrixInverse(nullptr, view);
 	XMMATRIX invProj = XMMatrixInverse(&XMMatrixDeterminant(proj), proj);
 	XMMATRIX invViewProj = XMMatrixInverse(&XMMatrixDeterminant(viewProj), viewProj);
 
 	XMStoreFloat4x4(&pc.View, XMMatrixTranspose(view));
 	XMStoreFloat4x4(&pc.InvView, XMMatrixTranspose(invView));
 	XMStoreFloat4x4(&pc.Proj, XMMatrixTranspose(proj));
+	XMStoreFloat4x4(&pc.ViewProj, XMMatrixTranspose(viewProj));
 	XMStoreFloat3(&pc.EyePosW, m_TransformCom->Get_State(CTransform::STATE_POSITION));
 	pc.AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
 	pc.Lights[0].Direction = { 0.57735f, -0.57735f, 0.57735f };

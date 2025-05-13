@@ -84,7 +84,7 @@ float4 PS(VertexOut pin) : SV_Target
 	diffuseAlbedo *= gTextureMaps[diffuseMapIndex].Sample(gsamAnisotropicWrap, pin.TexC);
 
     // Vector from point being lit to eye. 
-    float3 toEyeW = normalize(gEyePosW - pin.PosW);
+    float3 toEyeW = normalW - pin.PosW);
 
     // Light terms.
     float4 ambient = gAmbientLight*diffuseAlbedo;
