@@ -37,8 +37,8 @@ void CGameInstance::Initialize(WindowInfo windowInfo, CRawInput* pRawInput)
 	//m_ShaderMgr->AddShader("DefaultVS", CShader::ST_VS, L"../bin/Shaders/Default.hlsl", nullptr);
 	//m_ShaderMgr->AddShader("DefaultPS", CShader::ST_PS, L"../bin/Shaders/Default.hlsl", nullptr);
 
-	m_ShaderMgr->AddShader("SkyVS", CShader::ST_VS, L"../bin/Shaders/Sky1.hlsl", nullptr);
-	m_ShaderMgr->AddShader("SkyPS", CShader::ST_PS, L"../bin/Shaders/Sky1.hlsl", nullptr);
+	m_ShaderMgr->AddShader("SkyVS", CShader::ST_VS, L"../bin/Shaders/Sky.hlsl", nullptr);
+	m_ShaderMgr->AddShader("SkyPS", CShader::ST_PS, L"../bin/Shaders/Sky.hlsl", nullptr);
 
 	m_ShaderMgr->AddShader("PosNorVS", CShader::ST_VS, L"../bin/ShaderFiles/Default.hlsl", nullptr);
 	m_ShaderMgr->AddShader("PosNorPS", CShader::ST_PS, L"../bin/ShaderFiles/Default.hlsl", nullptr);

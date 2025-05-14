@@ -26,7 +26,7 @@ VertexOut VS(VertexIn vin)
 	vout.PosL = vin.PosL;
 	
 	// Transform to world space.
-	float4 posW = float4(vin.PosL*500.f, 1.0f);
+	float4 posW = mul(float4(vin.PosL, 1.0f), gWorld);
 
 	// Always center sky about camera.
 	posW.xyz += gEyePosW;
