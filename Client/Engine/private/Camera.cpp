@@ -70,7 +70,9 @@ void CCamera::LateTick(float fTimeDelta)
 	XMStoreFloat4x4(&pc.InvView, XMMatrixTranspose(invView));
 	XMStoreFloat4x4(&pc.Proj, XMMatrixTranspose(proj));
 	XMStoreFloat4x4(&pc.ViewProj, XMMatrixTranspose(viewProj));
+	XMVECTOR vec = m_TransformCom->Get_State(CTransform::STATE_POSITION);
 	XMStoreFloat3(&pc.EyePosW, m_TransformCom->Get_State(CTransform::STATE_POSITION));
+	pc.EyePosW;
 	pc.AmbientLight = { 0.25f, 0.25f, 0.35f, 1.0f };
 	pc.Lights[0].Direction = { 0.57735f, -0.57735f, 0.57735f };
 	pc.Lights[0].Strength = { 0.6f, 0.6f, 0.6f };
