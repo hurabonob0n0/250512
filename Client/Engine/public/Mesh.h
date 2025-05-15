@@ -11,9 +11,14 @@ BEGIN(Engine)
 class CMesh final : public CVIBuffer
 {
 private:
-	CMesh(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList);
+	CMesh(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pContext);
 	CMesh(CMesh& rhs);
 	virtual ~CMesh() = default;
+
+public:
+	_uint Get_MaterialIndex() const {
+		return m_iMaterialIndex;
+	}
 
 public:
 	virtual HRESULT Initialize_Prototype(CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<class CBone*>& Bones, _fmatrix PivotMatrix);
@@ -34,7 +39,7 @@ private:
 	HRESULT Ready_Anim_Mesh(const aiMesh* pAIMesh, const vector<class CBone*>& Bones);
 
 public:
-	static CMesh* Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList, CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<class CBone*>& Bones, _fmatrix PivotMatrix);
+	static CMesh* Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pContext, CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<class CBone*>& Bones, _fmatrix PivotMatrix);
 	virtual CComponent* Clone(void* pArg);
 	virtual void Free() override;
 };

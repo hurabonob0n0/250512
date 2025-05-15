@@ -97,6 +97,12 @@
     <Filter Include="02.Utilities\00.Component\03.Model">
       <UniqueIdentifier>{087a9ae9-b7f8-4bf3-8655-97cb3cd566b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Utilities\00.Component\03.Model\00.Animation">
+      <UniqueIdentifier>{1ea2088d-494e-4fca-b9ed-954c5e4decd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Utilities\00.Component\03.Model\01.Mesh">
+      <UniqueIdentifier>{fddf08b2-601b-42c3-9cbd-630a4c7231a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Engine_Defines.h">
@@ -204,17 +210,23 @@
     <ClInclude Include="..\public\DDSTextureLoader.h">
       <Filter>02.Utilities\99.Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Bone.h">
-      <Filter>02.Utilities\00.Component\03.Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Mesh.h">
-      <Filter>02.Utilities\00.Component\03.Model</Filter>
+    <ClInclude Include="..\public\VIBuffer_Terrain.h">
+      <Filter>02.Utilities\00.Component\00.VIBuffer</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Model.h">
       <Filter>02.Utilities\00.Component\03.Model</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\VIBuffer_Terrain.h">
-      <Filter>02.Utilities\00.Component\00.VIBuffer</Filter>
+    <ClInclude Include="..\public\Animation.h">
+      <Filter>02.Utilities\00.Component\03.Model\00.Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Bone.h">
+      <Filter>02.Utilities\00.Component\03.Model\00.Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Channel.h">
+      <Filter>02.Utilities\00.Component\03.Model\00.Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mesh.h">
+      <Filter>02.Utilities\00.Component\03.Model\01.Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -308,17 +320,23 @@
     <ClCompile Include="..\public\DDSTextureLoader.cpp">
       <Filter>02.Utilities\99.Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Bone.cpp">
-      <Filter>02.Utilities\00.Component\03.Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Mesh.cpp">
-      <Filter>02.Utilities\00.Component\03.Model</Filter>
+    <ClCompile Include="..\private\VIBuffer_Terrain.cpp">
+      <Filter>02.Utilities\00.Component\00.VIBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Model.cpp">
       <Filter>02.Utilities\00.Component\03.Model</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\VIBuffer_Terrain.cpp">
-      <Filter>02.Utilities\00.Component\00.VIBuffer</Filter>
+    <ClCompile Include="..\private\Animation.cpp">
+      <Filter>02.Utilities\00.Component\03.Model\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Bone.cpp">
+      <Filter>02.Utilities\00.Component\03.Model\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Channel.cpp">
+      <Filter>02.Utilities\00.Component\03.Model\00.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mesh.cpp">
+      <Filter>02.Utilities\00.Component\03.Model\01.Mesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

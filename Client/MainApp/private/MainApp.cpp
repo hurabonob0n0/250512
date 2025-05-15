@@ -91,15 +91,19 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 
 	m_GameInstance->AddPrototype("TransformCom", CTransform::Create(GETDEVICE,GETCOMMANDLIST));
 	m_GameInstance->AddPrototype("VIBuffer_GeosCom", CVIBuffer_Geos::Create(GETDEVICE, GETCOMMANDLIST));
-	/*m_GameInstance->AddPrototype("TerrainCom", CVIBuffer_Terrain::Create(GETDEVICE, GETCOMMANDLIST, "../bin/Models/Terrain/Terrain.png", 0.1f, 1.f));
+	/*m_GameInstance->AddPrototype("TerrainCom", CVIBuffer_Terrain::Create(GETDEVICE, GETCOMMANDLIST, "../bin/Models/Terrain/Terrain.png", 0.1f, 1.f));*/
 	m_GameInstance->AddPrototype("ModelCom", CModel::Create(m_GameInstance->Get_Device(), m_GameInstance->Get_CommandList(), CModel::TYPE_NONANIM, "../bin/Models/Tank/M1A2.FBX",
-		XMMatrixScaling(0.1f,0.1f,0.1f)* XMMatrixTranslation(0.f,12.f,20.f)));*/
+		XMMatrixScaling(0.1f,0.1f,0.1f)* XMMatrixTranslation(0.f,0.f,0.f)));
+	
+	//For Tank Textures
+	
+
 
 	//m_GameInstance->Add_PrototypeObject("Camera", CCamera_Free::Create());
 	m_GameInstance->Add_PrototypeObject("Camera", CCamera_Free::Create());
 	//m_GameInstance->Add_PrototypeObject("DefaultObject", CDefaultObj::Create());
 	//m_GameInstance->Add_PrototypeObject("BoxObject", CBoxObj::Create());
-	//m_GameInstance->Add_PrototypeObject("Tank", CTank::Create());
+	m_GameInstance->Add_PrototypeObject("Tank", CTank::Create());
 	//m_GameInstance->Add_PrototypeObject("Terrain", CTerrain::Create());
 
 	//_matrix mat = XMMatrixTranslation(0.f, 5.f, -5.f);
@@ -110,8 +114,8 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 
 	//m_GameInstance->AddObject("BoxObject", "BoxObject", nullptr);
 
-	/*m_GameInstance->AddObject("Tank", "Tank", nullptr);
-	_matrix mat2 = XMMatrixTranslation(0.f, 5.f, 90.f);
+	m_GameInstance->AddObject("Tank", "Tank", nullptr);
+	/*_matrix mat2 = XMMatrixTranslation(0.f, 5.f, 90.f);
 	m_GameInstance->AddObject("Tank", "Tank", &mat2);*/
 
 
@@ -196,7 +200,9 @@ int CMainApp::Run()
 				Late_Update(m_Timer);
 				Draw();
 
+				m_Input_Dev->UpdateKeyStates();
 				m_Input_Dev->ResetPerFrame();
+
 			}
 			else
 			{

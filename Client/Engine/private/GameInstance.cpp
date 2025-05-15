@@ -34,8 +34,8 @@ void CGameInstance::Initialize(WindowInfo windowInfo, CRawInput* pRawInput)
 
 	//ShaderMgr
 	m_ShaderMgr = CShader_Mgr::Get_Instance();
-	//m_ShaderMgr->AddShader("DefaultVS", CShader::ST_VS, L"../bin/Shaders/Default.hlsl", nullptr);
-	//m_ShaderMgr->AddShader("DefaultPS", CShader::ST_PS, L"../bin/Shaders/Default.hlsl", nullptr);
+	m_ShaderMgr->AddShader("DefaultVS", CShader::ST_VS, L"../bin/Shaders/Default.hlsl", nullptr);
+	m_ShaderMgr->AddShader("DefaultPS", CShader::ST_PS, L"../bin/Shaders/Default.hlsl", nullptr);
 
 	m_ShaderMgr->AddShader("SkyVS", CShader::ST_VS, L"../bin/Shaders/Sky.hlsl", nullptr);
 	m_ShaderMgr->AddShader("SkyPS", CShader::ST_PS, L"../bin/Shaders/Sky.hlsl", nullptr);
@@ -46,11 +46,11 @@ void CGameInstance::Initialize(WindowInfo windowInfo, CRawInput* pRawInput)
 	//PSOMgr
 	m_PSOMgr = CPSOMgr::Get_Instance();
 
-	//m_PSOMgr->AddPSO("DefaultPSO", CPSO::Create()->
-	//	SetInputLayout(CPSO::IT_MESH)->
-	//	SetVS(m_ShaderMgr->GetShaderObj("DefaultVS"))->
-	//	SetPS(m_ShaderMgr->GetShaderObj("DefaultPS"))->
-	//	SetRS(m_RootSignatureMgr->Get("DefaultRS"))->Create_PSO());
+	m_PSOMgr->AddPSO("DefaultPSO", CPSO::Create()->
+		SetInputLayout(CPSO::IT_MESH)->
+		SetVS(m_ShaderMgr->GetShaderObj("DefaultVS"))->
+		SetPS(m_ShaderMgr->GetShaderObj("DefaultPS"))->
+		SetRS(m_RootSignatureMgr->Get("DefaultRS"))->Create_PSO());
 
 	m_PSOMgr->AddPSO("SkyPSO", CPSO::Create()->
 		SetInputLayout(CPSO::IT_POS_NOR_TEX)->
@@ -95,12 +95,12 @@ void CGameInstance::Update(CTimer* pTimer)
 
 
 	m_ObjectMgr->Update(pTimer->DeltaTime());
-	m_MaterialMgr->Update_Mats();
 }
 
 void CGameInstance::Late_Update(CTimer* pTimer)
 {
 	m_ObjectMgr->LateUpdate(pTimer->DeltaTime());
+	m_MaterialMgr->Update_Mats();
 }
 
 void CGameInstance::Draw()
@@ -126,7 +126,7 @@ void CGameInstance::Draw()
 
 	//m_MainRenderer->Render_NonBlend();
 
-	Get_CommandList()->SetPipelineState(m_PSOMgr->Get("PosNorPSO"));
+	Get_CommandList()->SetPipelineState(m_PSOMgr->Get("DefaultPSO"));
 
 	m_MainRenderer->Render_Blend();
 

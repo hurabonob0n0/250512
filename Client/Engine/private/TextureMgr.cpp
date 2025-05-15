@@ -16,6 +16,7 @@ int CTextureMgr::Add_Texture(string texname, CTexture* texInstance, TEXTURETYPE 
 
     m_TexMap[texname] = texInstance;
 
+    hDescriptor = srvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
     hDescriptor.Offset(index, CGameInstance::Get_Instance()->Get_CBVUAVSRVHeapSize());
 
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -48,6 +49,8 @@ int CTextureMgr::Add_Texture(string texname, CTexture* texInstance, TEXTURETYPE 
     default:
         break;
     }
+
+    //hDescriptor = srvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 
     return index;
 }

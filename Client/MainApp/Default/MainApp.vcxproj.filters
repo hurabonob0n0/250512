@@ -74,9 +74,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\private\MainApp.cpp">
-      <Filter>00.MainApp</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\DefaultObj.cpp">
       <Filter>01.DefaultObj</Filter>
     </ClCompile>
@@ -107,5 +104,28 @@
     <ClCompile Include="..\private\ServerSession.cpp">
       <Filter>98.ForServer\ServiceManager</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\MainApp.cpp">
+      <Filter>00.MainApp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\bin\Shaders\TankVS.hlsl">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\TankPS.hlsl">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\Common.hlsl">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\LightingUtil.hlsl">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\CommonTank.hlsl">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\Default.hlsl">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

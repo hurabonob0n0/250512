@@ -170,7 +170,9 @@
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\public\ServerSession.h" />
     <ClInclude Include="..\public\ServiceManager.h" />
-    <ClInclude Include="..\public\Tank.h" />
+    <ClInclude Include="..\public\Tank.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\public\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +192,26 @@
     <ClCompile Include="..\private\ServiceManager.cpp" />
     <ClCompile Include="..\private\Tank.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\bin\Shaders\Common.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\CommonTank.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\Default.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\LightingUtil.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\TankPS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shaders\TankVS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -55,6 +55,7 @@ void CMaterialMgr::Update_Mats()
 		matData.NormalMapIndex = mat.NormalMapIndex;
 
 		currMaterialBuffer->CopyData(index, matData);
+		++index;
 		//Todo:나중에 프레임리소스별로 한 번씩 갱신하면된다.
 	}
 }
