@@ -19,9 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\public\Animation.h" />
     <ClInclude Include="..\public\Base.h" />
     <ClInclude Include="..\public\Bone.h" />
     <ClInclude Include="..\public\Camera.h" />
+    <ClInclude Include="..\public\Channel.h" />
     <ClInclude Include="..\public\ComponentMgr.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\public\d3dUtil.h" />
@@ -63,12 +65,14 @@
     <ClInclude Include="..\public\VIBuffer_Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\private\Animation.cpp" />
     <ClCompile Include="..\private\Base.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\public\;../\public\utilities\;</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="..\private\Bone.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
+    <ClCompile Include="..\private\Channel.cpp" />
     <ClCompile Include="..\private\ComponentMgr.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\Engine_Struct.cpp" />

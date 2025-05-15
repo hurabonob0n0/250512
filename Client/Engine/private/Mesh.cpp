@@ -1,33 +1,27 @@
-#include "..\Public\Mesh.h"
+#include "Mesh.h"
 #include "Bone.h"
 #include "Shader.h"
 
-CMesh::CMesh(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList)
-	: CVIBuffer(pDevice, pCommandList)
+CMesh::CMesh(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pContext)
+	: CVIBuffer(pDevice, pContext)
 {
 }
 
-CMesh::CMesh(CMesh & rhs) : CVIBuffer(rhs)
+CMesh::CMesh(CMesh & rhs)
+	: CVIBuffer(rhs)
 {
 }
 
 HRESULT CMesh::Initialize_Prototype(CModel::TYPE eModelType, const aiMesh * pAIMesh, const vector<class CBone*>& Bones, _fmatrix PivotMatrix)
 {
+	m_iMaterialIndex = pAIMesh->mMaterialIndex;
 	strcpy_s(m_szName, pAIMesh->mName.data);
-
-#ifndef _DEBUG
-	D3D12_GPU_VIRTUAL_ADDRESS	m_VertexBufferGPUaddress;
-	D3D12_GPU_VIRTUAL_ADDRESS	m_IndexBufferGPUaddress;
-
-#endif // !_DEBUG
 
 	m_VertexNum = pAIMesh->mNumVertices;
 	m_IndexNum = pAIMesh->mNumFaces * 3;
 	m_IndexFormat = DXGI_FORMAT_R32_UINT;
 	m_PrimitiveType = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	m_IndexBufferByteSize = m_IndexNum * sizeof(std::uint32_t);
-
-
 
 	//47872 * 3
 
@@ -41,21 +35,21 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eModelType, const aiMesh * pAIM
 
 
 #pragma region INDEX_BUFFER
-	_ulong*		pIndices = new _ulong[m_IndexNum];
+	_ulong* pIndices = new _ulong[m_IndexNum];
 	ZeroMemory(pIndices, m_IndexBufferByteSize);
 
 	_uint		iNumIndices = 0;
 
 	for (size_t i = 0; i < pAIMesh->mNumFaces; ++i)
 	{
-		aiFace	AIFace = pAIMesh->mFaces[i];	
+		aiFace	AIFace = pAIMesh->mFaces[i];
 
 		pIndices[iNumIndices++] = AIFace.mIndices[0];
 		pIndices[iNumIndices++] = AIFace.mIndices[1];
 		pIndices[iNumIndices++] = AIFace.mIndices[2];
 	}
 
-	__super::Create_Buffer(&m_IndexBufferGPU,&m_IndexBufferUploader, pIndices, m_IndexBufferByteSize);
+	__super::Create_Buffer(&m_IndexBufferGPU, &m_IndexBufferUploader, pIndices, m_IndexBufferByteSize);
 
 	delete[] pIndices;
 	pIndices = nullptr;
@@ -87,13 +81,14 @@ HRESULT CMesh::Bind_BoneMatrices(CShader * pShader, const vector<CBone*>& Bones,
 			XMLoadFloat4x4(Bones[m_BoneIndices[i]]->Get_CombinedMatrix()) * PivotMatrix);
 	}
 
-	return S_OK;//Todo:pShader->Bind_Matrices(pConstantName, BoneMatrices, m_iNumBones);
+	//return pShader->Bind_Matrices(pConstantName, BoneMatrices, m_iNumBones);
+	return S_OK;
 }
 
 HRESULT CMesh::Ready_NonAnim_Mesh(const aiMesh * pAIMesh, _fmatrix PivotMatrix)
 {
 	m_VertexByteStride = sizeof(VTXMESH);
-	m_VertexBufferByteSize = m_VertexByteStride*m_VertexNum;
+	m_VertexBufferByteSize = m_VertexByteStride * m_VertexNum;
 
 	VTXMESH* pVertices = new VTXMESH[m_VertexNum];
 	ZeroMemory(pVertices, sizeof(VTXMESH) * m_VertexNum);
@@ -110,7 +105,7 @@ HRESULT CMesh::Ready_NonAnim_Mesh(const aiMesh * pAIMesh, _fmatrix PivotMatrix)
 		memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
 	}
 
-	__super::Create_Buffer(&m_VertexBufferGPU,&m_VertexBufferUploader, pVertices, m_VertexBufferByteSize);
+	__super::Create_Buffer(&m_VertexBufferGPU, &m_VertexBufferUploader, pVertices, m_VertexBufferByteSize);
 
 	delete[] pVertices;
 	pVertices = nullptr;
@@ -124,7 +119,7 @@ HRESULT CMesh::Ready_Anim_Mesh(const aiMesh * pAIMesh, const vector<class CBone*
 	m_VertexBufferByteSize = m_VertexByteStride * m_VertexNum;
 
 
-	VTXANIMMESH*		pVertices = new VTXANIMMESH[m_VertexNum];
+	VTXANIMMESH* pVertices = new VTXANIMMESH[m_VertexNum];
 	ZeroMemory(pVertices, m_VertexBufferByteSize);
 
 	for (size_t i = 0; i < m_VertexNum; i++)
@@ -133,7 +128,7 @@ HRESULT CMesh::Ready_Anim_Mesh(const aiMesh * pAIMesh, const vector<class CBone*
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		memcpy(&pVertices[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 		memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
-	}	
+	}
 
 	/* 메시의 뼈의 갯수(mNumBones). (전체뼈의 갯수( x), 이 메시에게 영향ㅇ르 주는 뼈의 갯수(o) */
 	/* vBlendIndices : 이 메시에게 영향ㅇ르 주는 뼈기준의 인덱스들 */
@@ -142,13 +137,13 @@ HRESULT CMesh::Ready_Anim_Mesh(const aiMesh * pAIMesh, const vector<class CBone*
 
 	for (size_t i = 0; i < m_iNumBones; i++)
 	{
-		aiBone*		pAIBone = pAIMesh->mBones[i];
+		aiBone* pAIBone = pAIMesh->mBones[i];
 
 		/* 메시에  mOffsetMatrix행렬이 담겨있는 형태다. */
 		/* 공통된 뼈 셋트를 서로 다른 메시에 적용해주기위해 필요한 보정 상태를 가지고 있는 행렬. */
 		_float4x4		OffsetMatrix;
 
-		memcpy(&OffsetMatrix, &pAIBone->mOffsetMatrix, sizeof(_float4x4));		
+		memcpy(&OffsetMatrix, &pAIBone->mOffsetMatrix, sizeof(_float4x4));
 
 		XMStoreFloat4x4(&OffsetMatrix, XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
 
@@ -156,12 +151,12 @@ HRESULT CMesh::Ready_Anim_Mesh(const aiMesh * pAIMesh, const vector<class CBone*
 
 		_uint		iBoneIndex = 0;
 
-		auto	iter = find_if(Bones.begin(), Bones.end(), [&](CBone* pBone)->_bool {					
+		auto	iter = find_if(Bones.begin(), Bones.end(), [&](CBone* pBone)->_bool {
 			if (0 == strcmp(pBone->Get_BoneName(), pAIBone->mName.data))
 				return true;
 			++iBoneIndex;
 			return false;
-		});	
+			});
 
 		m_BoneIndices.push_back(iBoneIndex);
 
@@ -172,7 +167,7 @@ HRESULT CMesh::Ready_Anim_Mesh(const aiMesh * pAIMesh, const vector<class CBone*
 				pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndices.x = i;
 				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeights.x = pAIBone->mWeights[j].mWeight;
 			}
-			
+
 			else if (0.0f == pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeights.y)
 			{
 				pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndices.y = i;
@@ -187,7 +182,7 @@ HRESULT CMesh::Ready_Anim_Mesh(const aiMesh * pAIMesh, const vector<class CBone*
 			{
 				pVertices[pAIBone->mWeights[j].mVertexId].vBlendIndices.w = i;
 				pVertices[pAIBone->mWeights[j].mVertexId].vBlendWeights.w = pAIBone->mWeights[j].mWeight;
-			}			
+			}
 		}
 	}
 
@@ -202,11 +197,11 @@ HRESULT CMesh::Ready_Anim_Mesh(const aiMesh * pAIMesh, const vector<class CBone*
 				return true;
 			++iBoneIndex;
 			return false;
-		});
+			});
 
 		_float4x4		OffsetMatrix;
 
-		XMStoreFloat4x4(&OffsetMatrix, XMMatrixIdentity());	
+		XMStoreFloat4x4(&OffsetMatrix, XMMatrixIdentity());
 
 		m_OffsetMatices.push_back(OffsetMatrix);
 
@@ -221,9 +216,9 @@ HRESULT CMesh::Ready_Anim_Mesh(const aiMesh * pAIMesh, const vector<class CBone*
 	return S_OK;
 }
 
-CMesh* CMesh::Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList, CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<class CBone*>& Bones, _fmatrix PivotMatrix)
+CMesh* CMesh::Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pContext, CModel::TYPE eModelType, const aiMesh* pAIMesh, const vector<class CBone*>& Bones, _fmatrix PivotMatrix)
 {
-	CMesh* pInstance = new CMesh(pDevice, pCommandList);
+	CMesh* pInstance = new CMesh(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype(eModelType, pAIMesh, Bones, PivotMatrix)))
 	{
@@ -234,7 +229,7 @@ CMesh* CMesh::Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandL
 	return pInstance;
 }
 
-CComponent* CMesh::Clone(void * pArg)
+CComponent * CMesh::Clone(void * pArg)
 {
 	CMesh* pInstance = new CMesh(*this);
 

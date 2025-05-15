@@ -36,7 +36,6 @@
 #include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
-#include <assimp/material.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
 #pragma comment(lib, "d3d12.lib")

@@ -27,7 +27,7 @@ public:
 	virtual void LateTick(float fTimeDelta);
 	virtual void Render();
 
-private:
+protected:
 	UINT CalcConstantBufferByteSize(UINT byteSize)
 	{
 		return (byteSize + 255) & ~255;

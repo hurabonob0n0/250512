@@ -2,6 +2,7 @@
 #include "Engine_Macro.h"
 #include <d3d12.h>
 #include <DirectXMath.h>
+#include <assimp/material.h>
 
 #define MaxLights 16
 
@@ -11,14 +12,6 @@ static const int gNumFrameResources = 3;
 
 namespace Engine
 {
-	//struct SubmeshGeometry
-	//{
-	//	UINT IndexCount = 0;
-	//	UINT StartIndexLocation = 0;
-	//	INT BaseVertexLocation = 0;
-
-	//	//DirectX::BoundingBox Bounds;
-	//};
 
 	struct ENGINE_DLL ObjectConstants
 	{
@@ -57,7 +50,7 @@ namespace Engine
 		float TotalTime = 0.0f;
 		float DeltaTime = 0.0f;
 
-		DirectX::XMFLOAT4 AmbientLight = { 0.0f, 0.0f, 0.0f, 1.0f };
+		DirectX::XMFLOAT4 AmbientLight = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 		// Indices [0, NUM_DIR_LIGHTS) are directional lights;
 		// indices [NUM_DIR_LIGHTS, NUM_DIR_LIGHTS+NUM_POINT_LIGHTS) are point lights;
@@ -99,13 +92,33 @@ namespace Engine
 		float Roughness = 0.5f;
 
 		// Used in texture mapping.
-		DirectX::XMFLOAT4X4 MatTransform = XMFLOAT4X4{};
+		DirectX::XMFLOAT4X4 MatTransform = XMFLOAT4X4(
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f);
 
 		UINT DiffuseMapIndex = 0;
 		UINT NormalMapIndex = 0;
 		UINT MaterialPad1;
 		UINT MaterialPad2;
 	};
+
+}
+
+namespace Engine {
+	typedef struct tagModelMaterial
+	{
+		class CTexture* pMaterials[AI_TEXTURE_TYPE_MAX];
+	}MODEL_MATERIAL;
+
+	typedef struct tagKeyFrame
+	{
+		float			fTime;
+		XMFLOAT4		vScale;
+		XMFLOAT4		vRotation;
+		XMFLOAT4		vTranslation;
+	}KEYFRAME;
 }
 
 namespace Engine
