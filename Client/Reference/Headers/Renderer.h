@@ -11,7 +11,7 @@ public:
 	enum RENDERGROUP { RG_PRIORITY, RG_NONLIGHT, RG_NONBLEND, RG_BLEND, RG_UI, RG_END };
 
 public:
-	CRenderer(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList);
+	CRenderer(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList ,class CGameInstance* pGameInstance);
 	CRenderer(CRenderer& rhs);
 	virtual ~CRenderer() = default;
 
@@ -30,7 +30,10 @@ public:
 private:
 	vector<CRenderObject*> m_vRenderObjects[RG_END];
 
-public:
+private:
+	class CGameInstance* m_GameInstance;
+
+private:
 	void Render_Priority();
 	void Render_NonLight();
 	void Render_NonBlend();
@@ -41,7 +44,7 @@ private:
 	//Todo : 나중에 PSO, RootSignature, FrameResource 등등 렌더링에 필요한 것들을 모두 모아놓고 Render()함수 안에서 처리하도록 만든다.
 
 public:
-	static CRenderer* Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList);
+	static CRenderer* Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList,class CGameInstance* pInstance);
 	CComponent* Clone(void* pArg) override;
 	void Free() override;
 };

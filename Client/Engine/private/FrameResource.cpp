@@ -1,4 +1,5 @@
 #include "FrameResource.h"
+#include "GameInstance.h"
 
 CFrameResource::CFrameResource()
 {
@@ -16,6 +17,21 @@ void CFrameResource::Initialize(ID3D12Device* device)
     m_MaterialCB = CUploadBuffer<MaterialData>::Create(device, 1000, false);
 }
 
+void CFrameResource::Set_PassConstants()
+{
+    GETCOMMANDLIST->SetGraphicsRootConstantBufferView(1, m_PassCB->Resource()->GetGPUVirtualAddress());
+}
+
+void CFrameResource::Set_Materials()
+{
+    GETCOMMANDLIST->SetGraphicsRootShaderResourceView(2, m_MaterialCB->Resource()->GetGPUVirtualAddress());
+}
+
+void CFrameResource::Set_ObjectConstantBufferIndex(CRenderObject* RO)
+{
+    UsedObjectCBIndex += RO->Set_ObjCBIndex(UsedObjectCBIndex);
+}
+
 CFrameResource* CFrameResource::Create(ID3D12Device* device)
 {
     CFrameResource* pInstance = new CFrameResource;
@@ -29,3 +45,4 @@ void CFrameResource::Free()
     Safe_Release(m_PassCB);
     Safe_Release(m_ObjectCB);
 }
+

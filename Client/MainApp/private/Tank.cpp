@@ -23,63 +23,52 @@ HRESULT CTank::Initialize_Prototype()
 
 HRESULT CTank::Initialize(void* pArg)
 {
-    m_RG = CRenderer::RG_BLEND;
+    m_RG = CRenderer::RG_NONBLEND;
 
     __super::Initialize(pArg);
 
     MaterialData mat{};
-    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Fence_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Fences_Base_color.dds"));
-    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Fence_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Fences_Normal.dds"));
-    int a = m_GameInstance->Add_Material("Tank_Fence", mat);
-
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Glacis_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Glacis_Plate_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Glacis_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Glacis_Plate_Normal.dds"));
-    a = m_GameInstance->Add_Material("Tank_Glacis", mat);
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Glacis", mat));
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Glass_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Glass_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Glass_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Glass_Normal.dds"));
-    a = m_GameInstance->Add_Material("Tank_Glass", mat);
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Glass", mat));
 
-    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Sprocket_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Sprocket_Base_color.dds"));
-    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Sprocket_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Sprocket_Normal.dds"));
-    a = m_GameInstance->Add_Material("Tank_Sprocket", mat);
-
-    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Tracks_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Tracks_Base_color.dds"));
-    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Tracks_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Tracks_Normal.dds"));
-    a = m_GameInstance->Add_Material("Tank_Tracks", mat);
-
-    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Turret_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Turret_Base_color.dds"));
-    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Turret_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Turret_Normal.dds"));
-    a = m_GameInstance->Add_Material("Tank_Turret", mat);
-
-    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_W_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_W_Base_Base_color.dds"));
-    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_W_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_W_Base_Normal.dds"));
-    a = m_GameInstance->Add_Material("Tank_W", mat);
+    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Fence_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Fences_Base_color.dds"));
+    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Fence_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Fences_Normal.dds"));
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Fence", mat));
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Wheels_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Wheels_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Wheels_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Wheels_Normal.dds"));
-    a = m_GameInstance->Add_Material("Tank_Wheels", mat);
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Wheels", mat));
 
+    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Turret_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Turret_Base_color.dds"));
+    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Turret_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Turret_Normal.dds"));
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Turret", mat));
+
+    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_W_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_W_Base_Base_color.dds"));
+    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_W_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_W_Base_Normal.dds"));
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_W", mat));
+
+    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Sprocket_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Sprocket_Base_color.dds"));
+    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Sprocket_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Sprocket_Normal.dds"));
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Sprocket", mat));
+
+    mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Tracks_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Tracks_Base_color.dds"));
+    mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Tracks_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Tracks_Normal.dds"));
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Tracks", mat));
+    
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_M250_D", CTexture::Create(L"../bin/Models/TankDDS/M2-50_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_M250_N", CTexture::Create(L"../bin/Models/TankDDS/M2-50_Normal.dds"));
-    a = m_GameInstance->Add_Material("Tank_M250", mat);
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_M250", mat));
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_M240P_D", CTexture::Create(L"../bin/Models/TankDDS/M240P_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_M240P_N", CTexture::Create(L"../bin/Models/TankDDS/M240P_Normal.dds"));
-    a = m_GameInstance->Add_Material("Tank_M240P", mat);
-
+    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_M240P", mat));
 
     m_VIBuffer= (CModel*)m_GameInstance->Get_Component("ModelCom");
-
-    CB_Mat_Index CBMat{};
-
-    for (int i = 0; i < 10; ++i)
-    {
-        CBMat.CBIndex = i+1;
-        CBMatIndicies.push_back(CBMat);
-    }
-
-
 
     return S_OK;
 }
@@ -142,60 +131,29 @@ void CTank::Tick(float fTimeDelta)
             m_CBIndex = 0;
     }
 
-    _uint Matindex = CBMatIndicies[m_CBIndex].MatIndex;
+    _uint Matindex = m_MatIndicies[m_CBIndex];
 
     if (m_GameInstance->Key_Down(VK_RIGHT))
         if (Matindex < 8)
-            CBMatIndicies[m_CBIndex].MatIndex += 1;
+            m_MatIndicies[m_CBIndex] += 1;
 
     if (m_GameInstance->Key_Down(VK_LEFT))
         if (Matindex > 0)
-            CBMatIndicies[m_CBIndex].MatIndex -= 1;
+            m_MatIndicies[m_CBIndex] -= 1;
 
 }
 
 void CTank::LateTick(float fTimeDelta)
 {
-    //__super::LateTick(fTimeDelta);
-    m_RendererCom->AddtoRenderObjects(m_RG, this);
-
-    auto FrameResource = m_GameInstance->Get_Current_FrameResource();
-    auto currObjectCB = FrameResource->m_ObjectCB;
-
-    XMMATRIX world = m_TransformCom->Get_WorldMatrix();
-    _matrix textransform = m_TexCoordTransformCom->Get_WorldMatrix();
-
-    ObjectConstants objConstants{};
-    XMStoreFloat4x4(&objConstants.World, XMMatrixTranspose(world));
-    XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(textransform));
-
-    for (int i = 0; i < CBMatIndicies.size(); ++i) {
-        objConstants.MaterialIndex = CBMatIndicies[i].MatIndex;
-        currObjectCB->CopyData(CBMatIndicies[i].CBIndex, objConstants);
-    }
-
+    __super::LateTick(fTimeDelta);
 }
 
 void CTank::Render()
 {
-    //__super::Render();
-    _uint bs = sizeof(ObjectConstants);
-    UINT objCBByteSize = CRenderObject::CalcConstantBufferByteSize(bs);
-
-    auto objectCB = m_GameInstance->Get_Current_FrameResource()->m_ObjectCB->Resource();
-
-
-    for (int i = 0; i < CBMatIndicies.size(); ++i) {
-        D3D12_GPU_VIRTUAL_ADDRESS objCBAddress = objectCB->GetGPUVirtualAddress();
-        objCBAddress += CBMatIndicies[i].CBIndex * objCBByteSize;
-        m_GameInstance->Get_CommandList()->SetGraphicsRootConstantBufferView(0, objCBAddress);
+    for (int i = 0; i < m_MatIndicies.size(); ++i) {
+        CRenderObject::Render(i);
         m_VIBuffer->Render(i);
     }
-
-    /*objCBAddress += CBMatIndicies[0].CBIndex * objCBByteSize;
-    m_GameInstance->Get_CommandList()->SetGraphicsRootConstantBufferView(0, objCBAddress);*/
-
-    //m_VIBuffer->Render(0);
 }
 
 void CTank::Free()

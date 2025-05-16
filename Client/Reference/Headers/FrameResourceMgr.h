@@ -23,6 +23,12 @@ public:
 	void SignalAndAdvance();
 
 public:
+	void Set_ObjectConstantBufferIndex(class CRenderObject* RO);
+
+public:
+	void Set_CurrentFramePBMats();
+
+public:
 	void Flush_CommandQueue();
 
 private:

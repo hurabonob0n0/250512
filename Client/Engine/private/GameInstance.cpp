@@ -40,8 +40,8 @@ void CGameInstance::Initialize(WindowInfo windowInfo, CRawInput* pRawInput)
 	m_ShaderMgr->AddShader("SkyVS", CShader::ST_VS, L"../bin/Shaders/Sky.hlsl", nullptr);
 	m_ShaderMgr->AddShader("SkyPS", CShader::ST_PS, L"../bin/Shaders/Sky.hlsl", nullptr);
 
-	m_ShaderMgr->AddShader("PosNorVS", CShader::ST_VS, L"../bin/ShaderFiles/Default.hlsl", nullptr);
-	m_ShaderMgr->AddShader("PosNorPS", CShader::ST_PS, L"../bin/ShaderFiles/Default.hlsl", nullptr);
+	//m_ShaderMgr->AddShader("PosNorVS", CShader::ST_VS, L"../bin/ShaderFiles/Default.hlsl", nullptr);
+	//m_ShaderMgr->AddShader("PosNorPS", CShader::ST_PS, L"../bin/ShaderFiles/Default.hlsl", nullptr);
 
 	//PSOMgr
 	m_PSOMgr = CPSOMgr::Get_Instance();
@@ -59,14 +59,14 @@ void CGameInstance::Initialize(WindowInfo windowInfo, CRawInput* pRawInput)
 		SetRS(m_RootSignatureMgr->Get("DefaultRS"))->
 		SetForSkyBox()->Create_PSO());
 
-	m_PSOMgr->AddPSO("PosNorPSO", CPSO::Create()->
-		SetInputLayout(CPSO::IT_POS_NOR)->
-		SetVS(m_ShaderMgr->GetShaderObj("PosNorVS"))->
-		SetPS(m_ShaderMgr->GetShaderObj("PosNorPS"))->
-		SetRS(m_RootSignatureMgr->Get("DefaultRS"))->Create_PSO());
+	//m_PSOMgr->AddPSO("PosNorPSO", CPSO::Create()->
+	//	SetInputLayout(CPSO::IT_POS_NOR)->
+	//	SetVS(m_ShaderMgr->GetShaderObj("PosNorVS"))->
+	//	SetPS(m_ShaderMgr->GetShaderObj("PosNorPS"))->
+	//	SetRS(m_RootSignatureMgr->Get("DefaultRS"))->Create_PSO());
 
 	//Renderer
-	m_MainRenderer = CRenderer::Create(Get_Device(),Get_CommandList());
+	m_MainRenderer = CRenderer::Create(Get_Device(),Get_CommandList(),this);
 	m_ComponentMgr->AddPrototype("RendererCom", m_MainRenderer);
 
 	//ObjectMgr
@@ -93,48 +93,23 @@ void CGameInstance::Update(CTimer* pTimer)
 {
 	m_FrameResourceMgr->BeginFrame();
 
-
 	m_ObjectMgr->Update(pTimer->DeltaTime());
 }
 
 void CGameInstance::Late_Update(CTimer* pTimer)
 {
 	m_ObjectMgr->LateUpdate(pTimer->DeltaTime());
+
 	m_MaterialMgr->Update_Mats();
 }
 
 void CGameInstance::Draw()
 {
-	m_FrameResourceMgr->Reset_CommandList_and_Allocator(m_PSOMgr->Get("SkyPSO"));
-
-	m_Graphic_Dev->Set_BackBuffer_and_DSV();
-	
-	m_TextureMgr->Set_DescriptorHeap();
-
-	Get_CommandList()->SetGraphicsRootSignature(m_RootSignatureMgr->Get("DefaultRS"));
-
-	auto passCB = m_FrameResourceMgr->Get_Current_FrameResource()->m_PassCB->Resource();
-	Get_CommandList()->SetGraphicsRootConstantBufferView(1, passCB->GetGPUVirtualAddress());
-
-	m_MaterialMgr->Set_Materials();
-
-	Get_CommandList()->SetGraphicsRootDescriptorTable(4, m_TextureMgr->Get_DescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
-
-	m_MainRenderer->Render_Priority();
-
-	//Get_CommandList()->SetPipelineState(m_PSOMgr->Get("DefaultPSO"));
-
-	//m_MainRenderer->Render_NonBlend();
-
-	Get_CommandList()->SetPipelineState(m_PSOMgr->Get("DefaultPSO"));
-
-	m_MainRenderer->Render_Blend();
-
-	m_Graphic_Dev->Present();
+	m_MainRenderer->Render();
 
 	m_FrameResourceMgr->SignalAndAdvance();
 
-	//m_MainRenderer->ResetRenderObjects();
+	m_MainRenderer->ResetRenderObjects();
 }
 
 void CGameInstance::Free()
@@ -145,6 +120,8 @@ void CGameInstance::Free()
 void CGameInstance::Release_Engine()
 {
 	m_FrameResourceMgr->Flush_CommandQueue();
+	Safe_Release(m_MainRenderer); //Renderer만 삭제할 때, GameInstance를 릴리즈 해야 합니다.
+	CGameInstance::Release();
 	Safe_Release(m_ObjectMgr);
 	Safe_Release(m_MainRenderer);
 	Safe_Release(m_ComponentMgr);

@@ -3,8 +3,10 @@
 #include "GameInstance.h"
 #include "FrameResourceMgr.h"
 
-CRenderer::CRenderer(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList) : CComponent(pDevice, pCommandList)
+CRenderer::CRenderer(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList, class CGameInstance* pGameInstance) : CComponent(pDevice, pCommandList)
 {
+    m_GameInstance = pGameInstance;
+    Safe_AddRef(m_GameInstance);
 }
 
 CRenderer::CRenderer(CRenderer& rhs) : CComponent(rhs)
@@ -13,7 +15,6 @@ CRenderer::CRenderer(CRenderer& rhs) : CComponent(rhs)
 
 void CRenderer::AddtoRenderObjects(RENDERGROUP RG, CRenderObject* pRenderObject)
 {
-    pRenderObject->Set_ObjCBIndex(m_vRenderObjects[RG].size());
     Safe_AddRef(pRenderObject);
     m_vRenderObjects[RG].push_back(pRenderObject);
 }
@@ -75,11 +76,22 @@ HRESULT CRenderer::Initialize(void* pArg)
 
 void CRenderer::Render()
 {
+    m_GameInstance->Reset_CommandList_and_Allocator(m_GameInstance->GetPSO("SkyPSO"));
+    m_GameInstance->Set_BackBuffer_and_DSV();
+    m_GameInstance->Set_DescriptorHeap();
+    m_CommandList->SetGraphicsRootSignature(m_GameInstance->GetRootSignature("DefaultRS"));
+    m_GameInstance->Set_CurrentFramePBMats();
+    m_CommandList->SetGraphicsRootDescriptorTable(4, m_GameInstance->Get_SRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+
     Render_Priority();
-    Render_NonLight();
+   
+    m_CommandList->SetPipelineState(m_GameInstance->GetPSO("DefaultPSO"));
+
     Render_NonBlend();
     Render_Blend();
     Render_UI();
+    
+    m_GameInstance->Present();
 }
 
 void CRenderer::Render_Priority()
@@ -138,17 +150,17 @@ void CRenderer::Render_UI()
     m_vRenderObjects[RG_UI].clear();
 }
 
-CRenderer* CRenderer::Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList)
+CRenderer* CRenderer::Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList, CGameInstance* pInstance)
 {
-    CRenderer* pInstance = new CRenderer(pDevice, pCommandList);
+    CRenderer* pRenderer = new CRenderer(pDevice, pCommandList,pInstance);
 
-    if (FAILED(pInstance->Initialize_Prototype()))
+    if (FAILED(pRenderer->Initialize_Prototype()))
     {
         MSG_BOX("Failed to create Renderer prototype.");
-        Safe_Release(pInstance);
+        Safe_Release(pRenderer);
     }
 
-    return pInstance;
+    return pRenderer;
 }
 
 CComponent* CRenderer::Clone(void* pArg)

@@ -64,8 +64,19 @@ void CFrameResourceMgr::SignalAndAdvance()
 	++m_MainFenceValue;
 	m_CommandQueue->Signal(m_MainFence, m_MainFenceValue);
 	m_FrameResources[m_CurrentFrameIndex]->Set_Fence_Value(m_MainFenceValue);
+	m_FrameResources[m_CurrentFrameIndex]->Reset_ObjectCBIndex();
 }
 
+void CFrameResourceMgr::Set_ObjectConstantBufferIndex(CRenderObject* RO)
+{
+	Get_Current_FrameResource()->Set_ObjectConstantBufferIndex(RO);
+}
+
+void CFrameResourceMgr::Set_CurrentFramePBMats()
+{
+	Get_Current_FrameResource()->Set_PassConstants();
+	Get_Current_FrameResource()->Set_Materials();
+}
 void CFrameResourceMgr::Flush_CommandQueue()
 {
 	m_MainFenceValue++;

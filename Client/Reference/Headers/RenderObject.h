@@ -15,8 +15,8 @@ public:
 	virtual ~CRenderObject() = default;
 
 public:
-	virtual void Set_ObjCBIndex(const UINT& index);
-	virtual void Set_MatIndex(const UINT& index) { m_MatIndex = index; }
+	virtual _uint Set_ObjCBIndex(const UINT& index);
+	virtual void Set_MatIndex(const UINT& index) { m_MatIndicies.push_back(index); }
 	virtual void Set_RenderGroup(CRenderer::RENDERGROUP RG);
 	_matrix	Get_WorldMatrix() { return m_TransformCom->Get_WorldMatrix(); }
 
@@ -26,6 +26,7 @@ public:
 	virtual void Tick(float fTimeDelta);
 	virtual void LateTick(float fTimeDelta);
 	virtual void Render();
+	virtual void Render(_uint i);
 
 protected:
 	UINT CalcConstantBufferByteSize(UINT byteSize)
@@ -39,7 +40,7 @@ protected:
 
 protected:
 	UINT m_objCBIndex = -1;
-	UINT m_MatIndex = -1;
+	vector<UINT> m_MatIndicies;
 	CRenderer::RENDERGROUP m_RG = CRenderer::RENDERGROUP::RG_PRIORITY;
 
 public:
