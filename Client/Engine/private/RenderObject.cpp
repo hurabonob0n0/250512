@@ -11,9 +11,10 @@ CRenderObject::CRenderObject(CRenderObject& rhs) : CGameObject(rhs)
 {
 }
 
-void CRenderObject::Set_ObjCBIndex(const UINT& index)
+_uint CRenderObject::Set_ObjCBIndex(const UINT& index)
 {
 	m_objCBIndex = index;
+	return m_MatIndicies.size();
 }
 
 void CRenderObject::Set_RenderGroup(CRenderer::RENDERGROUP RG)
@@ -48,6 +49,7 @@ void CRenderObject::LateTick(float fTimeDelta)
 	m_RendererCom->AddtoRenderObjects(m_RG, this);
 
 	auto FrameResource = m_GameInstance->Get_Current_FrameResource();
+	FrameResource->Set_ObjectConstantBufferIndex(this);
 	auto currObjectCB = FrameResource->m_ObjectCB;
 
 	XMMATRIX world = m_TransformCom->Get_WorldMatrix();
@@ -56,10 +58,12 @@ void CRenderObject::LateTick(float fTimeDelta)
 	ObjectConstants objConstants{};
 	XMStoreFloat4x4(&objConstants.World, XMMatrixTranspose(world));
 	XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(textransform));
-	objConstants.MaterialIndex = m_MatIndex;
 
-	currObjectCB->CopyData(m_objCBIndex, objConstants);
-	
+	for (int i = 0; i < m_MatIndicies.size(); ++i) {
+		objConstants.MaterialIndex = m_MatIndicies[i];
+		currObjectCB->CopyData(m_objCBIndex + i, objConstants);
+	}
+
 }
 
 void CRenderObject::Render()
@@ -72,6 +76,17 @@ void CRenderObject::Render()
 
 	objCBAddress += m_objCBIndex * objCBByteSize;
 
+	m_GameInstance->Get_CommandList()->SetGraphicsRootConstantBufferView(0, objCBAddress);
+}
+
+void CRenderObject::Render(_uint i)
+{
+	UINT objCBByteSize = CRenderObject::CalcConstantBufferByteSize(sizeof(ObjectConstants));
+
+	auto objectCB = m_GameInstance->Get_Current_FrameResource()->m_ObjectCB->Resource();
+
+	D3D12_GPU_VIRTUAL_ADDRESS objCBAddress = objectCB->GetGPUVirtualAddress();
+	objCBAddress += (m_objCBIndex + i) * objCBByteSize;
 	m_GameInstance->Get_CommandList()->SetGraphicsRootConstantBufferView(0, objCBAddress);
 }
 

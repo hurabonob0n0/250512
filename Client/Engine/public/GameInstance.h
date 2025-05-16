@@ -33,6 +33,8 @@ public:		//For_GraphicDev
 	ID3D12CommandQueue* Get_CommandQueue() { return m_Graphic_Dev->Get_CommandQueue(); }
 	void Execute_CommandList() { m_Graphic_Dev->Execute_CommandList(); }
 	UINT Get_CBVUAVSRVHeapSize() { return m_Graphic_Dev->Get_CBVUAVSRVHeapSize(); }
+	void Set_BackBuffer_and_DSV() { m_Graphic_Dev->Set_BackBuffer_and_DSV(); }
+	void Present() { m_Graphic_Dev->Present(); }
 
 public:		//For_InputDev
 	bool Key_Down(UINT vkey) {return m_Input_Dev->Key_Down(vkey);}
@@ -50,6 +52,8 @@ public:		//For_FrameResourceMgr
 	void Reset_CommandList_and_Allocator(ID3D12PipelineState* PSO) { m_FrameResourceMgr->Reset_CommandList_and_Allocator(PSO); } //Todo : 나중에 매개변수로 PSO받아서 설정해주기
 	CFrameResource* Get_Current_FrameResource() { return m_FrameResourceMgr->Get_Current_FrameResource(); }
 	void Flush_CommandQueue() { m_FrameResourceMgr->Flush_CommandQueue(); }
+	void Set_CurrentFramePBMats() { m_FrameResourceMgr->Set_CurrentFramePBMats(); }
+	void Set_ObjectConstantBufferIndex(class CRenderObject* RO) { m_FrameResourceMgr->Set_ObjectConstantBufferIndex(RO); }
 
 public: //For ComponentMgr
 	HRESULT AddPrototype(const string& prototypeTag, CComponent* pPrototype) { return m_ComponentMgr->AddPrototype(prototypeTag, pPrototype); }
@@ -63,7 +67,6 @@ public:
 	void Set_Pos_For_Server(string LayerName, _uint ID, float* pos) {
 		m_ObjectMgr->Set_Pos_For_Server(LayerName, ID, pos);
 	}
-
 	CGameObject* GetGameObject(string LayerName, _uint ID) {
 
 		return m_ObjectMgr->GetGameObject(LayerName, ID);
@@ -72,11 +75,20 @@ public:
 public: //For MaterialMgr
 	int Add_Material(string matName, MaterialData matInstance) { return m_MaterialMgr->Add_Material(matName, matInstance); }
 
-public:
+public: //For TextureMgr
 	int Add_Texture(string texname, CTexture* texInstance, CTextureMgr::TEXTURETYPE TT = CTextureMgr::TT_TEXTURE2D) {
 		return m_TextureMgr->Add_Texture(texname, texInstance, TT);
 	}
-	ID3D12DescriptorHeap* Get_DescriptorHeap() { return m_TextureMgr->Get_DescriptorHeap(); }
+	ID3D12DescriptorHeap* Get_SRVDescriptorHeap() { return m_TextureMgr->Get_DescriptorHeap(); }
+	void Set_DescriptorHeap() { m_TextureMgr->Set_DescriptorHeap(); }
+
+public: //For PSOMgr
+	ID3D12PipelineState* GetPSO(const string& PSOName) const { return m_PSOMgr->Get(PSOName); }
+
+public: //For RSMgr
+	ID3D12RootSignature* GetRootSignature(const std::string& name) const { return m_RootSignatureMgr->Get(name); }
+
+
 
 public:
 	void Free();

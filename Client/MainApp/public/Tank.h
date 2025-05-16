@@ -10,12 +10,6 @@ BEGIN(Client)
 
 class CTank : public CRenderObject
 {
-public:
-	struct CB_Mat_Index {
-		_uint CBIndex = 1;
-		_uint MatIndex = 0;
-	};
-
 private:
 	CTank();
 	CTank(CTank& rhs);
@@ -30,17 +24,13 @@ public:
 
 private:
 	CModel* m_VIBuffer;
-
-	vector<CB_Mat_Index> CBMatIndicies;
-	_uint m_CBIndex = 0;
-
 	bool	KeyInput = false;
-	
+
+	_uint m_CBIndex = 0;
 
 public:
 	void set_MyPlayer() {
 		_myPlayer = true;
-
 	}
 private:
 	bool _myPlayer = false;

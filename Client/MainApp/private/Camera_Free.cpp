@@ -44,6 +44,7 @@ void CCamera_Free::LateTick(float fTimeDelta)
 	m_RendererCom->AddtoRenderObjects(m_RG, this);
 
 	auto FrameResource = m_GameInstance->Get_Current_FrameResource();
+	FrameResource->Set_ObjectConstantBufferIndex(this);
 	auto currObjectCB = FrameResource->m_ObjectCB;
 
 	XMMATRIX world = XMMatrixScaling(5000.f,5000.f,5000.f);
@@ -52,7 +53,7 @@ void CCamera_Free::LateTick(float fTimeDelta)
 	ObjectConstants objConstants{};
 	XMStoreFloat4x4(&objConstants.World, XMMatrixTranspose(world));
 	XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(textransform));
-	objConstants.MaterialIndex = m_MatIndex;
+	objConstants.MaterialIndex = m_MatIndicies[0];
 
 	currObjectCB->CopyData(m_objCBIndex, objConstants);
 
@@ -61,11 +62,11 @@ void CCamera_Free::LateTick(float fTimeDelta)
 
 void CCamera_Free::Render()
 {
-	CRenderObject::Render();
-
-	CD3DX12_GPU_DESCRIPTOR_HANDLE skyTexDescriptor(m_GameInstance->Get_DescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
-	skyTexDescriptor.Offset(m_MatIndex, m_GameInstance->Get_CBVUAVSRVHeapSize());
+	CD3DX12_GPU_DESCRIPTOR_HANDLE skyTexDescriptor(m_GameInstance->Get_SRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+	skyTexDescriptor.Offset(m_MatIndicies[0], m_GameInstance->Get_CBVUAVSRVHeapSize());
 	GETCOMMANDLIST->SetGraphicsRootDescriptorTable(3, skyTexDescriptor);
+	
+	CRenderObject::Render();
 
 	m_VIBuffer->Render();
 }
