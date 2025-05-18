@@ -17,6 +17,13 @@ HRESULT CMesh::Initialize_Prototype(CModel::TYPE eModelType, const aiMesh * pAIM
 	m_iMaterialIndex = pAIMesh->mMaterialIndex;
 	strcpy_s(m_szName, pAIMesh->mName.data);
 
+	//std::ofstream fout("../bin/MeshInfo.txt", std::ios::app); // append ¸ðµå
+	//if (fout.is_open())
+	//{
+	//	fout << g_MeshNum++ << ". " << "MeshName: " << m_szName << ", MaterialIndex: " << m_iMaterialIndex << std::endl;
+	//	fout.close();
+	//}
+
 	m_VertexNum = pAIMesh->mNumVertices;
 	m_IndexNum = pAIMesh->mNumFaces * 3;
 	m_IndexFormat = DXGI_FORMAT_R32_UINT;

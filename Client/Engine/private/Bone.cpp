@@ -16,6 +16,13 @@ HRESULT CBone::Initialize(const aiNode * pAINode, _int iParentBoneIndex)
 
 	m_iParentBoneIndex = iParentBoneIndex;
 
+	//std::ofstream fout("../bin/BoneInfo.txt", std::ios::app); // append ¸ðµå
+	//if (fout.is_open())
+	//{
+	//	fout << g_BoneNum++ << "." << " BoneName: " << m_szName << ", ParentIndex: " << m_iParentBoneIndex << std::endl;
+	//	fout.close();
+	//}
+
 	return S_OK;
 }
 

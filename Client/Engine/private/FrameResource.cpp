@@ -27,9 +27,10 @@ void CFrameResource::Set_Materials()
     GETCOMMANDLIST->SetGraphicsRootShaderResourceView(2, m_MaterialCB->Resource()->GetGPUVirtualAddress());
 }
 
-void CFrameResource::Set_ObjectConstantBufferIndex(CRenderObject* RO)
+void CFrameResource::Set_ObjectConstantBufferIndex(_uint& CBIndex)
 {
-    UsedObjectCBIndex += RO->Set_ObjCBIndex(UsedObjectCBIndex);
+    CBIndex = UsedObjectCBIndex;
+    UsedObjectCBIndex += 1;
 }
 
 CFrameResource* CFrameResource::Create(ID3D12Device* device)
@@ -44,5 +45,6 @@ void CFrameResource::Free()
     Safe_Release(m_CmdListAlloc);
     Safe_Release(m_PassCB);
     Safe_Release(m_ObjectCB);
+    Safe_Release(m_MaterialCB);
 }
 

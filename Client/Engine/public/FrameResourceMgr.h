@@ -23,7 +23,7 @@ public:
 	void SignalAndAdvance();
 
 public:
-	void Set_ObjectConstantBufferIndex(class CRenderObject* RO);
+	void Set_ObjectConstantBufferIndex(_uint& CBIndex);
 
 public:
 	void Set_CurrentFramePBMats();

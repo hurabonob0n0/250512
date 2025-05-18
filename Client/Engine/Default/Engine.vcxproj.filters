@@ -103,6 +103,9 @@
     <Filter Include="02.Utilities\00.Component\03.Model\01.Mesh">
       <UniqueIdentifier>{fddf08b2-601b-42c3-9cbd-630a4c7231a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Utilities\00.Component\04.CBBinding">
+      <UniqueIdentifier>{59a08ece-9e19-4333-b501-d39d0ded14c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Engine_Defines.h">
@@ -228,6 +231,9 @@
     <ClInclude Include="..\public\Mesh.h">
       <Filter>02.Utilities\00.Component\03.Model\01.Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\CBBinding.h">
+      <Filter>02.Utilities\00.Component\04.CBBinding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -337,6 +343,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Mesh.cpp">
       <Filter>02.Utilities\00.Component\03.Model\01.Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CBBinding.cpp">
+      <Filter>02.Utilities\00.Component\04.CBBinding</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

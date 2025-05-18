@@ -22,32 +22,27 @@ void CRenderer::AddtoRenderObjects(RENDERGROUP RG, CRenderObject* pRenderObject)
 void CRenderer::ResetRenderObjects()
 {
     for (auto& pRenderObject : m_vRenderObjects[RG_PRIORITY]) {
-        pRenderObject->Set_ObjCBIndex(-1);
         Safe_Release(pRenderObject);
     }
     m_vRenderObjects[RG_PRIORITY].clear();
 
     for (auto& pRenderObject : m_vRenderObjects[RG_NONLIGHT]) {
-        pRenderObject->Set_ObjCBIndex(-1);
         Safe_Release(pRenderObject);
     }
     m_vRenderObjects[RG_NONLIGHT].clear();
 
 
     for (auto& pRenderObject : m_vRenderObjects[RG_NONBLEND]) {
-        pRenderObject->Set_ObjCBIndex(-1);
         Safe_Release(pRenderObject);
     }
     m_vRenderObjects[RG_NONBLEND].clear();
 
     for (auto& pRenderObject : m_vRenderObjects[RG_BLEND]) {
-        pRenderObject->Set_ObjCBIndex(-1);
         Safe_Release(pRenderObject);
     }
     m_vRenderObjects[RG_BLEND].clear();
 
     for (auto& pRenderObject : m_vRenderObjects[RG_UI]) {
-        pRenderObject->Set_ObjCBIndex(-1);
         Safe_Release(pRenderObject);
     }
     m_vRenderObjects[RG_UI].clear();

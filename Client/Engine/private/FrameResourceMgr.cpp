@@ -67,9 +67,9 @@ void CFrameResourceMgr::SignalAndAdvance()
 	m_FrameResources[m_CurrentFrameIndex]->Reset_ObjectCBIndex();
 }
 
-void CFrameResourceMgr::Set_ObjectConstantBufferIndex(CRenderObject* RO)
+void CFrameResourceMgr::Set_ObjectConstantBufferIndex(_uint& CBIndex)
 {
-	Get_Current_FrameResource()->Set_ObjectConstantBufferIndex(RO);
+	Get_Current_FrameResource()->Set_ObjectConstantBufferIndex(CBIndex);
 }
 
 void CFrameResourceMgr::Set_CurrentFramePBMats()

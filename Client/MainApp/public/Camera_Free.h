@@ -4,6 +4,7 @@
 
 BEGIN(Engine)
 class CVIBuffer_Geos;
+class CBBinding;
 END
 
 BEGIN(Client)
@@ -24,6 +25,7 @@ public:
 
 private:
 	CVIBuffer_Geos* m_VIBuffer;
+	CBBinding* m_CBBindingCom;
 
 public:
 	void Free() override;

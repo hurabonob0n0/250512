@@ -5,7 +5,7 @@
 #include "Transform.h"
 #include "Model.h"
 #include "VIBuffer_Terrain.h"
-
+#include "CBBinding.h"
 
 class CComponentMgr : public CBase
 {

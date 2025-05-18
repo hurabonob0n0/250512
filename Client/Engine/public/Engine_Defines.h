@@ -111,5 +111,8 @@ static std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers()
 
 const static UINT g_NumFrameResources = 3;
 
+static int g_BoneNum = 1;
+static int g_MeshNum = 1;
+
 using namespace Engine;
 using namespace std;
