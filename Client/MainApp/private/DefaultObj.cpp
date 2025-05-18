@@ -23,13 +23,15 @@ HRESULT CDefaultObj::Initialize(void* pArg)
 
     __super::Initialize(pArg);
 
+    m_CBBindingCom = (CBBinding*)m_GameInstance->Get_Component("CBBindingCom", nullptr);
+
     MaterialData MD{};
 
     XMStoreFloat4x4( &MD.MatTransform, XMMatrixIdentity());
     MD.DiffuseMapIndex = m_GameInstance->Add_Texture("BrickDiffuse", CTexture::Create(L"../bin/Models/Basic/bricks.dds"));
     MD.NormalMapIndex = m_GameInstance->Add_Texture("BrickNormal", CTexture::Create(L"../bin/Models/Basic/bricks_nmap.dds"));
 
-    Set_MatIndex(m_GameInstance->Add_Material("BrickMat", MD));
+    m_CBBindingCom->Set_MaterialIndex(m_GameInstance->Add_Material("BrickMat", MD));
 
     m_VIBuffer = (CVIBuffer_Geos*)m_GameInstance->Get_Component("VIBuffer_GeosCom");
 
@@ -46,11 +48,13 @@ void CDefaultObj::Tick(float fTimeDelta)
 void CDefaultObj::LateTick(float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
+
+    m_CBBindingCom->Set_World_TexCoord_And_Update(m_TransformCom, m_TexCoordTransformCom);
 }
 
 void CDefaultObj::Render()
 {
-    __super::Render();
+    m_CBBindingCom->Set_On_Shader();
 
     m_VIBuffer->Render();
 }
@@ -58,6 +62,7 @@ void CDefaultObj::Render()
 void CDefaultObj::Free()
 {
     Safe_Release(m_VIBuffer);
+    Safe_Release(m_CBBindingCom);
 
     __super::Free();
 }

@@ -171,7 +171,7 @@
     <ClInclude Include="..\public\ServerSession.h" />
     <ClInclude Include="..\public\ServiceManager.h" />
     <ClInclude Include="..\public\Tank.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\public\Terrain.h" />
   </ItemGroup>
@@ -190,7 +190,9 @@
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\private\ServerSession.cpp" />
     <ClCompile Include="..\private\ServiceManager.cpp" />
-    <ClCompile Include="..\private\Tank.cpp" />
+    <ClCompile Include="..\private\Tank.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\private\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>

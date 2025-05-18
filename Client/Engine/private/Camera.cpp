@@ -47,8 +47,6 @@ void CCamera::Tick(float fTimeDelta)
 
 void CCamera::LateTick(float fTimeDelta)
 {
-	//__super::LateTick(fTimeDelta);
-
 	XMMATRIX proj = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f), // Field of View (radian ¥‹¿ß)
 		1.7777,               // Aspect ratio = width / height

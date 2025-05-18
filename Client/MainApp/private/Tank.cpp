@@ -122,8 +122,19 @@ void CTank::Tick(float fTimeDelta)
 
     //}
 
+    if (m_GameInstance->Key_Pressing(VK_RIGHT))
+        m_TransformCom->Turn({ 0.f,1.f,0.f,0.f }, fTimeDelta);
 
-    if (m_GameInstance->Key_Down(VK_SPACE))
+    if (m_GameInstance->Key_Pressing(VK_LEFT))
+        m_TransformCom->Turn({ 0.f,1.f,0.f,0.f }, -fTimeDelta);
+
+    if (m_GameInstance->Key_Pressing(VK_UP))
+        m_TransformCom->Go_Right(-fTimeDelta * 10.f);
+
+    if (m_GameInstance->Key_Pressing(VK_DOWN))
+        m_TransformCom->Go_Right(fTimeDelta * 10.f);
+
+    /*if (m_GameInstance->Key_Down(VK_SPACE))
     {
         if (m_CBIndex < 9)
             ++m_CBIndex;
@@ -139,7 +150,7 @@ void CTank::Tick(float fTimeDelta)
 
     if (m_GameInstance->Key_Down(VK_LEFT))
         if (Matindex > 0)
-            m_MatIndicies[m_CBIndex] -= 1;
+            m_MatIndicies[m_CBIndex] -= 1;*/
 
 }
 

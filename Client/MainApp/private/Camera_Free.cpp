@@ -23,7 +23,9 @@ HRESULT CCamera_Free::Initialize(void* pArg)
 
 	Set_RenderGroup(CRenderer::RG_PRIORITY);
 	
-	Set_MatIndex(m_GameInstance->Add_Texture("SkyBox", CTexture::Create(L"../bin/Models/SkyBox/desertcube1024.dds"), CTextureMgr::TT_TEXTURECUBE));
+	m_CBBindingCom = (CBBinding*)m_GameInstance->Get_Component("CBBindingCom", nullptr);
+
+	m_CBBindingCom->Set_MaterialIndex(m_GameInstance->Add_Texture("SkyBox", CTexture::Create(L"../bin/Models/SkyBox/desertcube1024.dds"), CTextureMgr::TT_TEXTURECUBE));
 
 	CVIBuffer_Geos::BASIC_SUBMESHES BS = CVIBuffer_Geos::BS_SPHERE;
 
@@ -43,19 +45,14 @@ void CCamera_Free::LateTick(float fTimeDelta)
 {
 	m_RendererCom->AddtoRenderObjects(m_RG, this);
 
-	auto FrameResource = m_GameInstance->Get_Current_FrameResource();
-	FrameResource->Set_ObjectConstantBufferIndex(this);
-	auto currObjectCB = FrameResource->m_ObjectCB;
-
 	XMMATRIX world = XMMatrixScaling(5000.f,5000.f,5000.f);
 	_matrix textransform = m_TexCoordTransformCom->Get_WorldMatrix();
+	
 
-	ObjectConstants objConstants{};
-	XMStoreFloat4x4(&objConstants.World, XMMatrixTranspose(world));
-	XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(textransform));
-	objConstants.MaterialIndex = m_MatIndicies[0];
-
-	currObjectCB->CopyData(m_objCBIndex, objConstants);
+	m_CBBindingCom->Set_CBIndex();
+	m_CBBindingCom->Set_WorldMatrix(world);
+	m_CBBindingCom->Set_TexCoordMatrix(textransform);
+	m_CBBindingCom->Update_CBView();
 
 	__super::LateTick(fTimeDelta);
 }
@@ -63,10 +60,10 @@ void CCamera_Free::LateTick(float fTimeDelta)
 void CCamera_Free::Render()
 {
 	CD3DX12_GPU_DESCRIPTOR_HANDLE skyTexDescriptor(m_GameInstance->Get_SRVDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
-	skyTexDescriptor.Offset(m_MatIndicies[0], m_GameInstance->Get_CBVUAVSRVHeapSize());
+	skyTexDescriptor.Offset(0, m_GameInstance->Get_CBVUAVSRVHeapSize());
 	GETCOMMANDLIST->SetGraphicsRootDescriptorTable(3, skyTexDescriptor);
 	
-	CRenderObject::Render();
+	m_CBBindingCom->Set_On_Shader();
 
 	m_VIBuffer->Render();
 }

@@ -23,6 +23,7 @@
     <ClInclude Include="..\public\Base.h" />
     <ClInclude Include="..\public\Bone.h" />
     <ClInclude Include="..\public\Camera.h" />
+    <ClInclude Include="..\public\CBBinding.h" />
     <ClInclude Include="..\public\Channel.h" />
     <ClInclude Include="..\public\ComponentMgr.h" />
     <ClInclude Include="..\public\Component.h" />
@@ -72,6 +73,7 @@
     </ClCompile>
     <ClCompile Include="..\private\Bone.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
+    <ClCompile Include="..\private\CBBinding.cpp" />
     <ClCompile Include="..\private\Channel.cpp" />
     <ClCompile Include="..\private\ComponentMgr.cpp" />
     <ClCompile Include="..\private\Component.cpp" />

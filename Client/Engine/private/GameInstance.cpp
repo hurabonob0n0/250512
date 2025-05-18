@@ -27,6 +27,7 @@ void CGameInstance::Initialize(WindowInfo windowInfo, CRawInput* pRawInput)
 
 	//ComponentMgr
 	m_ComponentMgr = CComponentMgr::Get_Instance();
+	m_ComponentMgr->AddPrototype("CBBindingCom", CBBinding::Create(Get_Device(), Get_CommandList(), m_FrameResourceMgr));
 
 	//RootSignatureMgr
 	m_RootSignatureMgr = CRootSignatureMgr::Get_Instance();

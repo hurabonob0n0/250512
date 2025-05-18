@@ -53,7 +53,6 @@ public:		//For_FrameResourceMgr
 	CFrameResource* Get_Current_FrameResource() { return m_FrameResourceMgr->Get_Current_FrameResource(); }
 	void Flush_CommandQueue() { m_FrameResourceMgr->Flush_CommandQueue(); }
 	void Set_CurrentFramePBMats() { m_FrameResourceMgr->Set_CurrentFramePBMats(); }
-	void Set_ObjectConstantBufferIndex(class CRenderObject* RO) { m_FrameResourceMgr->Set_ObjectConstantBufferIndex(RO); }
 
 public: //For ComponentMgr
 	HRESULT AddPrototype(const string& prototypeTag, CComponent* pPrototype) { return m_ComponentMgr->AddPrototype(prototypeTag, pPrototype); }

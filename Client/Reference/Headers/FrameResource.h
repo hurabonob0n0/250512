@@ -22,7 +22,7 @@ public:
     void Set_Materials();
 
 public:
-    void Set_ObjectConstantBufferIndex(CRenderObject* RO);
+    void Set_ObjectConstantBufferIndex(_uint& CBIndex);
     void Reset_ObjectCBIndex() { UsedObjectCBIndex = 0; }
 
 private:
