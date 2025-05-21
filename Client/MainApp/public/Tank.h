@@ -26,8 +26,6 @@ private:
 	CModel* m_VIBuffer;
 	bool	KeyInput = false;
 
-	_uint m_CBIndex = 0;
-
 public:
 	void set_MyPlayer() {
 		_myPlayer = true;

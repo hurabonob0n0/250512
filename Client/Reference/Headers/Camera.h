@@ -17,6 +17,10 @@ public:
 	virtual void LateTick(float fTimeDelta);
 	virtual void Render();
 
+private:
+	bool m_isPaused = false;
+	float m_Speed = 1.f;
+
 public:
 	static CCamera* Create();
 	CCamera* Clone(void* pArg);
