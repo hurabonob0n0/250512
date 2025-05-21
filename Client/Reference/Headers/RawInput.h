@@ -38,6 +38,7 @@ public:
 
     SHORT Get_Mouse_XDelta() { return m_MouseDelta[0]; }
     SHORT Get_Mouse_YDelta() { return m_MouseDelta[1]; }
+    SHORT Get_Mouse_Scroll() { return m_MouseDelta[2]; }
 
 private:
     BYTE m_KeyState[256] = {};              // 현재 키보드 상태

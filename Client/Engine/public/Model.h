@@ -25,12 +25,15 @@ public:
 	virtual HRESULT Initialize(void* pArg);
 
 public:
-	void Play_Animation(_bool isLoop, _float fTimeDelta, _uint BoneIndex = -1, _fmatrix mat = XMMatrixIdentity());
-	HRESULT Render(_uint iMeshIndex);
+	void Set_MatOffsets(_uint MatOffset);
 
 public:
-	HRESULT Bind_BoneMatrices(_uint iMeshIndex, class CShader* pShader, const _char* pConstantName);
-	HRESULT Bind_Material(class CShader* pShader, const _char* pConstantName, _uint iMeshIndex, aiTextureType eMaterialType);
+	void Set_MatIndex(_uint MeshIndex, _uint MatIndex);
+
+public:
+	void Invalidate_Bones();
+	void Update();
+	HRESULT Render(_uint iMeshIndex);
 
 
 private:
@@ -45,16 +48,17 @@ private:
 	_float4x4					m_PivotMatrix;
 
 	_uint						m_iNumMeshes = { 0 };
-	vector<class CMesh*>		m_Meshes;
 
-	vector<class CBone*>			m_Bones;
+	vector< class CMesh*>			m_Meshes;
+
+	vector< class CBone*>			m_Bones;
 
 	/* 1차적으로 저장된 데이터로부터 내가 사용할 정보를 꺼내와서 추후 사용하기 편하도록 내 스타일대로 정리한다. */
 private:	
 	HRESULT Ready_Meshes();
 	HRESULT Ready_Bones(aiNode* pNode, _int iParentBoneIndex);
 
-private:
+public:
 	void Set_Matrix_to_Bone(_uint iBoneIndex,_matrix mat);
 
 public:

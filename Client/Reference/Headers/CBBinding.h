@@ -17,6 +17,7 @@ public:
 	void Set_CBIndex();
 	void Set_WorldMatrix(CTransform* pTransformCom);
 	void Set_WorldMatrix(_matrix worldmat);
+	void Set_WorldMatrix(_float4x4 worldMat);
 	void Set_TexCoordMatrix(CTransform* pTexCoordTransformCom);
 	void Set_TexCoordMatrix(_matrix TexCoordmat);
 	void Set_MaterialIndex(_uint MatIndex);

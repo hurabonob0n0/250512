@@ -28,6 +28,11 @@ void CBBinding::Set_WorldMatrix(_matrix worldmat)
     XMStoreFloat4x4(&m_ObjConstants.World, XMMatrixTranspose(worldmat));
 }
 
+void CBBinding::Set_WorldMatrix(_float4x4 worldMat)
+{
+    XMStoreFloat4x4(&m_ObjConstants.World, XMMatrixTranspose(XMLoadFloat4x4(&worldMat)));
+}
+
 void CBBinding::Set_TexCoordMatrix(CTransform* pTexCoordTransformCom)
 {
     XMStoreFloat4x4(&m_ObjConstants.TexTransform, XMMatrixTranspose(pTexCoordTransformCom->Get_WorldMatrix()));
@@ -35,7 +40,7 @@ void CBBinding::Set_TexCoordMatrix(CTransform* pTexCoordTransformCom)
 
 void CBBinding::Set_TexCoordMatrix(_matrix TexCoordmat)
 {
-    XMStoreFloat4x4(&m_ObjConstants.World, XMMatrixTranspose(TexCoordmat));
+    XMStoreFloat4x4(&m_ObjConstants.TexTransform, XMMatrixTranspose(TexCoordmat));
 }
 
 void CBBinding::Set_MaterialIndex(_uint MatIndex)
@@ -54,6 +59,8 @@ void CBBinding::Set_World_TexCoord_And_Update(CTransform* pTransformCom, CTransf
 
 void CBBinding::Update_CBView()
 {
+    m_ObjConstants;
+
     m_FrameResourceMgr->Get_Current_FrameResource()->m_ObjectCB->CopyData(m_ObjCBIndex, m_ObjConstants);
 }
 
@@ -64,6 +71,8 @@ void CBBinding::Set_On_Shader()
     D3D12_GPU_VIRTUAL_ADDRESS objCBAddress = m_FrameResourceMgr->Get_Current_FrameResource()->m_ObjectCB->Resource()->GetGPUVirtualAddress();
 
     objCBAddress += m_ObjCBIndex * objCBByteSize;
+
+    m_ObjConstants;
 
     m_CommandList->SetGraphicsRootConstantBufferView(0, objCBAddress);
 }

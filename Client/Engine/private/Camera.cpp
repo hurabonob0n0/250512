@@ -25,23 +25,33 @@ HRESULT CCamera::Initialize(void* pArg)
 
 void CCamera::Tick(float fTimeDelta)
 {
-	if (m_GameInstance->Key_Pressing('W'))
-		m_TransformCom->Go_Straight(fTimeDelta * 50.f);
+	if (m_GameInstance->Key_Down(VK_PAUSE))
+		m_isPaused != m_isPaused;
 
-	if (m_GameInstance->Key_Pressing('S'))
-		m_TransformCom->Go_Backward(fTimeDelta * 50.f);
+	if (!m_isPaused) {
 
-	if (m_GameInstance->Key_Pressing('A'))
-		m_TransformCom->Go_Left(fTimeDelta * 50.f);
+		m_Speed += (float)m_GameInstance->Get_Mouse_Scroll() * 0.1f;
 
-	if (m_GameInstance->Key_Pressing('D'))
-		m_TransformCom->Go_Right(fTimeDelta * 50.f);
+		if (m_GameInstance->Key_Pressing('W'))
+			m_TransformCom->Go_Straight(fTimeDelta* m_Speed);
 
-	m_TransformCom->Turn({0.f,1.f,0.f,0.f}, fTimeDelta * (float)m_GameInstance->Get_Mouse_XDelta() );
+		if (m_GameInstance->Key_Pressing('S'))
+			m_TransformCom->Go_Backward(fTimeDelta * m_Speed);
 
-	m_TransformCom->Turn(m_TransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * (float)m_GameInstance->Get_Mouse_YDelta() );
+		if (m_GameInstance->Key_Pressing('A'))
+			m_TransformCom->Go_Left(fTimeDelta * m_Speed);
 
-	__super::Tick(fTimeDelta);
+		if (m_GameInstance->Key_Pressing('D'))
+			m_TransformCom->Go_Right(fTimeDelta * m_Speed);
+
+		m_TransformCom->Turn({ 0.f,1.f,0.f,0.f }, fTimeDelta * (float)m_GameInstance->Get_Mouse_XDelta());
+
+		m_TransformCom->Turn(m_TransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * (float)m_GameInstance->Get_Mouse_YDelta());
+
+		__super::Tick(fTimeDelta);
+
+	}
+
 
 }
 

@@ -27,48 +27,50 @@ HRESULT CTank::Initialize(void* pArg)
 
     __super::Initialize(pArg);
 
+    m_VIBuffer = (CModel*)m_GameInstance->Get_Component("ModelCom");
+
     MaterialData mat{};
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Glacis_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Glacis_Plate_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Glacis_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Glacis_Plate_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Glacis", mat));
+    m_VIBuffer->Set_MatOffsets(mat.DiffuseMapIndex - 1); // Camera를 먼저 추가한다고 가정.
+    m_GameInstance->Add_Material("Tank_Glacis", mat);
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Glass_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Glass_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Glass_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Glass_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Glass", mat));
+    m_GameInstance->Add_Material("Tank_Glass", mat);
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Fence_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Fences_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Fence_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Fences_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Fence", mat));
+    m_GameInstance->Add_Material("Tank_Fence", mat);
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Wheels_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Wheels_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Wheels_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Wheels_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Wheels", mat));
+    m_GameInstance->Add_Material("Tank_Wheels", mat);
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Turret_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Turret_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Turret_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Turret_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Turret", mat));
+    m_GameInstance->Add_Material("Tank_Turret", mat);
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_W_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_W_Base_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_W_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_W_Base_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_W", mat));
+    m_GameInstance->Add_Material("Tank_W", mat);
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Sprocket_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Sprocket_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Sprocket_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Sprocket_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Sprocket", mat));
+    m_GameInstance->Add_Material("Tank_Sprocket", mat);
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_Tracks_D", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Tracks_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_Tracks_N", CTexture::Create(L"../bin/Models/TankDDS/M1A2_Tracks_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_Tracks", mat));
-    
+    m_GameInstance->Add_Material("Tank_Tracks", mat);
+
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_M250_D", CTexture::Create(L"../bin/Models/TankDDS/M2-50_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_M250_N", CTexture::Create(L"../bin/Models/TankDDS/M2-50_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_M250", mat));
+    m_GameInstance->Add_Material("Tank_M250", mat);
 
     mat.DiffuseMapIndex = m_GameInstance->Add_Texture("Tank_M240P_D", CTexture::Create(L"../bin/Models/TankDDS/M240P_Base_color.dds"));
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_M240P_N", CTexture::Create(L"../bin/Models/TankDDS/M240P_Normal.dds"));
-    CRenderObject::Set_MatIndex(m_GameInstance->Add_Material("Tank_M240P", mat));
+    m_GameInstance->Add_Material("Tank_M240P", mat);
 
-    m_VIBuffer= (CModel*)m_GameInstance->Get_Component("ModelCom");
 
     return S_OK;
 }
@@ -122,7 +124,7 @@ void CTank::Tick(float fTimeDelta)
 
     //}
 
-    if (m_GameInstance->Key_Pressing(VK_RIGHT))
+    /*if (m_GameInstance->Key_Pressing(VK_RIGHT))
         m_TransformCom->Turn({ 0.f,1.f,0.f,0.f }, fTimeDelta);
 
     if (m_GameInstance->Key_Pressing(VK_LEFT))
@@ -132,7 +134,8 @@ void CTank::Tick(float fTimeDelta)
         m_TransformCom->Go_Right(-fTimeDelta * 10.f);
 
     if (m_GameInstance->Key_Pressing(VK_DOWN))
-        m_TransformCom->Go_Right(fTimeDelta * 10.f);
+        m_TransformCom->Go_Right(fTimeDelta * 10.f);*/
+
 
     /*if (m_GameInstance->Key_Down(VK_SPACE))
     {
@@ -157,14 +160,18 @@ void CTank::Tick(float fTimeDelta)
 void CTank::LateTick(float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
+
+    //m_VIBuffer->Set_Matrix_to_Bone(0, m_TransformCom->Get_WorldMatrix());
+
+    m_VIBuffer->Invalidate_Bones();
+
+    m_VIBuffer->Update();
 }
 
 void CTank::Render()
 {
-    for (int i = 0; i < m_MatIndicies.size(); ++i) {
-        CRenderObject::Render(i);
+    for(int i = 0; i < 55; ++i)
         m_VIBuffer->Render(i);
-    }
 }
 
 void CTank::Free()

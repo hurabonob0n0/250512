@@ -24,6 +24,10 @@ public:
 		return &m_CombindTransformationMatrix;
 	}
 
+	_float4x4 Get_CombinedMatrix() {
+		return m_CombindTransformationMatrix;
+	}
+
 public:
 	void Set_TransformationMatrix(_fmatrix TransformationMatrix) {
 		XMStoreFloat4x4(&m_TransformationMatrix, TransformationMatrix);	

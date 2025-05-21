@@ -22,7 +22,10 @@ CModel::CModel(const CModel & rhs)
 	}
 
 	for (auto& pMesh : m_Meshes)
+	{
+		pMesh->Set_Bone(m_Bones);
 		Safe_AddRef(pMesh);	
+	}
 }
 
 HRESULT CModel::Initialize_Prototype(TYPE eModelType, const string& strModelFilePath, _fmatrix PivotMatrix)
@@ -72,23 +75,33 @@ HRESULT CModel::Initialize_Prototype(TYPE eModelType, const string& strModelFile
 
 HRESULT CModel::Initialize(void * pArg)
 {
-	
 	return S_OK;
 }
 
-void CModel::Play_Animation(_bool isLoop, _float fTimeDelta,_uint BoneIndex, _fmatrix mat)
+void CModel::Set_MatOffsets(_uint MatOffset)
 {
-	// 갱신하기 전에 내가 바꿔줄 뼈가 있다면 설정해준다.
-	if (BoneIndex != -1)
-		Set_Matrix_to_Bone(BoneIndex, mat);
+	for (auto& Mesh : m_Meshes)
+		Mesh->Set_MaterialIndexOffset(MatOffset);
+}
 
-	/* 모든 뼈들의 CombinedTransformationMatrix를 갱신한다. */
-	/* CombinedTransformationMatrix = 내뼈`s TransformationMatrix * 부모`s CombinedTransformationMatrix*/
+void CModel::Set_MatIndex(_uint MeshIndex, _uint MatIndex)
+{
+	m_Meshes[MeshIndex]->Set_MaterialIndex(MatIndex);
+}
+
+void CModel::Invalidate_Bones()
+{
 	for (auto& pBone : m_Bones)
 	{
 		pBone->Invalidate_CombinedTransformationMatrix(m_Bones);
 	}
+}
 
+void CModel::Update()
+{
+	for (auto& mesh : m_Meshes) {
+		mesh->Update();
+	}
 }
 
 /* 사전에 뼈의 상태들을 셰이더로 던진다. */
@@ -101,22 +114,13 @@ HRESULT CModel::Render(_uint iMeshIndex)
 	/* iMeshIndex에 해당하는 메시에 영향을 주는 뼈들을 모아서 셰이더로 전달한다. */
 	m_Meshes[iMeshIndex]->Render();
 
-	//for (auto& Mesh : m_Meshes)
-	//	Mesh->Render();
+	/*for (auto& Mesh : m_Meshes)
+		Mesh->Render();*/
 
 	return S_OK;
 }
 
-HRESULT CModel::Bind_BoneMatrices(_uint iMeshIndex, CShader * pShader, const _char * pConstantName)
-{
-	/* iMeshIndex번째 메시에 접근한다. */
-	/* 우리는 메시마다 VB, iB를 만든다. */
-	/* 메시마다 그려낸다. */
-	/* 한번 그린다. == 특정 메시의 정점들만 셰이더를 통과한다. */
-	/* 이 때에 전달되는 뼈들은 특정 메시에 영향을 주는 뼈들만 전달되어야할 필요가 있다. */
-	/* + 정점들이 가지고 있는 BlendIndices는 전체뼈의 인덱스가 아니라. 이 메시에 영향을 주는 뼈들읜 인덱스를 의미하는거. */
-	return m_Meshes[iMeshIndex]->Bind_BoneMatrices(pShader, m_Bones, pConstantName, XMLoadFloat4x4(&m_PivotMatrix));	
-}
+
 
 HRESULT CModel::Ready_Meshes()
 {

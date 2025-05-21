@@ -47,6 +47,7 @@ public:		//For_InputDev
 
 	SHORT Get_Mouse_XDelta() { return m_Input_Dev->Get_Mouse_XDelta(); }
 	SHORT Get_Mouse_YDelta() { return m_Input_Dev->Get_Mouse_YDelta(); }
+	SHORT Get_Mouse_Scroll() { return m_Input_Dev->Get_Mouse_Scroll(); }
 
 public:		//For_FrameResourceMgr
 	void Reset_CommandList_and_Allocator(ID3D12PipelineState* PSO) { m_FrameResourceMgr->Reset_CommandList_and_Allocator(PSO); } //Todo : 나중에 매개변수로 PSO받아서 설정해주기
