@@ -3,6 +3,7 @@
 
 BEGIN(Engine)
 class CVIBuffer_Terrain;
+class CBBinding;
 END
 
 BEGIN(Client)
@@ -10,6 +11,7 @@ class CTerrain : public CRenderObject
 {
 private:
 	CTerrain();
+	CTerrain(CTerrain& rhs);
 	virtual~CTerrain() = default;
 
 public:
@@ -21,6 +23,8 @@ public:
 
 private:
 	CVIBuffer_Terrain* m_VIBufferCom;
+	CBBinding* m_CBBindingCom;
+
 
 public:
 	static CTerrain* Create();
