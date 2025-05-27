@@ -83,6 +83,8 @@ void CRenderer::Render()
     m_CommandList->SetPipelineState(m_GameInstance->GetPSO("DefaultPSO"));
 
     Render_NonBlend();
+
+    m_CommandList->SetPipelineState(m_GameInstance->GetPSO("TerrainPSO"));
     Render_Blend();
     Render_UI();
     

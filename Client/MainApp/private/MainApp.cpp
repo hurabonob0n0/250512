@@ -91,7 +91,7 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 
 	m_GameInstance->AddPrototype("TransformCom", CTransform::Create(GETDEVICE,GETCOMMANDLIST));
 	m_GameInstance->AddPrototype("VIBuffer_GeosCom", CVIBuffer_Geos::Create(GETDEVICE, GETCOMMANDLIST));
-	/*m_GameInstance->AddPrototype("TerrainCom", CVIBuffer_Terrain::Create(GETDEVICE, GETCOMMANDLIST, "../bin/Models/Terrain/Terrain.png", 0.1f, 1.f));*/
+	m_GameInstance->AddPrototype("TerrainCom", CVIBuffer_Terrain::Create(GETDEVICE, GETCOMMANDLIST, "../bin/Models/Terrain/Terrain.png", 0.25f, 1.f));
 	m_GameInstance->AddPrototype("ModelCom", CModel::Create(m_GameInstance->Get_Device(), m_GameInstance->Get_CommandList(), CModel::TYPE_ANIM, "../bin/Models/Tank/M1A2.fbx",
 		XMMatrixScaling(0.01f,0.01f,0.01f)));
 
@@ -100,7 +100,7 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 	//m_GameInstance->Add_PrototypeObject("DefaultObject", CDefaultObj::Create());
 	//m_GameInstance->Add_PrototypeObject("BoxObject", CBoxObj::Create());
 	m_GameInstance->Add_PrototypeObject("Tank", CTank::Create());
-	//m_GameInstance->Add_PrototypeObject("Terrain", CTerrain::Create());
+	m_GameInstance->Add_PrototypeObject("Terrain", CTerrain::Create());
 
 	//_matrix mat = XMMatrixTranslation(0.f, 5.f, -5.f);
 	m_GameInstance->AddObject("Camera", "Camera", nullptr);
@@ -115,7 +115,7 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 	m_GameInstance->AddObject("Tank", "Tank", &mat2);*/
 
 
-	//m_GameInstance->AddObject("Terrain", "Terrain", nullptr);
+	m_GameInstance->AddObject("Terrain", "Terrain", nullptr);
 	//dynamic_cast<CTank*>(m_GameInstance->GetGameObject("Tank", 0))->set_MyPlayer();
 
 #pragma region For Server
