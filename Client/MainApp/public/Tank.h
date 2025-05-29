@@ -1,5 +1,6 @@
 #pragma once
 #include "RenderObject.h"
+#include "MyPhysicsEngine.h"
 
 BEGIN(Engine)
 class CModel;
@@ -32,6 +33,11 @@ public:
 	}
 private:
 	bool _myPlayer = false;
+
+private:
+	MyPhysicsEngine::CMyPhysicsEngine* m_pPhysicsEngine = nullptr;
+	MyPhysicsEngine::CMyPhysicsEngine::TankControlState m_TankConsrolState{};
+
 
 public:
 	void Free() override;

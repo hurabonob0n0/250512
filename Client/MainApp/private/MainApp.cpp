@@ -89,9 +89,14 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 
 	m_GameInstance->Initialize(WI, m_Input_Dev);
 
+	m_PhysicsEngine = MyPhysicsEngine::CMyPhysicsEngine::Get_Instance();
+	m_PhysicsEngine->Initialize_PhysX();
+	m_PhysicsEngine->Add_Terrain_From_File("../bin/Models/Terrain/Terrain.png", 1.f, 1.f);
+	m_PhysicsEngine->MyPhysicsEngine::CMyPhysicsEngine::Add_Tank(0.f,100.f,0.f);
+
 	m_GameInstance->AddPrototype("TransformCom", CTransform::Create(GETDEVICE,GETCOMMANDLIST));
 	m_GameInstance->AddPrototype("VIBuffer_GeosCom", CVIBuffer_Geos::Create(GETDEVICE, GETCOMMANDLIST));
-	m_GameInstance->AddPrototype("TerrainCom", CVIBuffer_Terrain::Create(GETDEVICE, GETCOMMANDLIST, "../bin/Models/Terrain/Terrain.png", 0.25f, 1.f));
+	m_GameInstance->AddPrototype("TerrainCom", CVIBuffer_Terrain::Create(GETDEVICE, GETCOMMANDLIST, "../bin/Models/Terrain/Terrain.png", 0.125f, 1.f));
 	m_GameInstance->AddPrototype("ModelCom", CModel::Create(m_GameInstance->Get_Device(), m_GameInstance->Get_CommandList(), CModel::TYPE_ANIM, "../bin/Models/Tank/M1A2.fbx",
 		XMMatrixScaling(0.01f,0.01f,0.01f)));
 
@@ -102,17 +107,17 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 	m_GameInstance->Add_PrototypeObject("Tank", CTank::Create());
 	m_GameInstance->Add_PrototypeObject("Terrain", CTerrain::Create());
 
-	//_matrix mat = XMMatrixTranslation(0.f, 5.f, -5.f);
-	m_GameInstance->AddObject("Camera", "Camera", nullptr);
+	_matrix mat = XMMatrixTranslation(0.f, 20.f, -20.f);
+	m_GameInstance->AddObject("Camera", "Camera", &mat);
 
 	/*_matrix mat1 = XMMatrixTranslation(0.f, 5.f, 10.f);
 	m_GameInstance->AddObject("DefaultObject", "DefaultObject", &mat1);*/
 
 	//m_GameInstance->AddObject("BoxObject", "BoxObject", nullptr);
 
-	m_GameInstance->AddObject("Tank", "Tank", nullptr);
-	/*_matrix mat2 = XMMatrixTranslation(0.f, 5.f, 90.f);
-	m_GameInstance->AddObject("Tank", "Tank", &mat2);*/
+	//m_GameInstance->AddObject("Tank", "Tank", nullptr);
+	_matrix mat2 = XMMatrixTranslation(0.f, 100.f, 0.f);
+	m_GameInstance->AddObject("Tank", "Tank", &mat2);
 
 
 	m_GameInstance->AddObject("Terrain", "Terrain", nullptr);
@@ -193,6 +198,7 @@ int CMainApp::Run()
 
 				CalculateFrameStats();
 				Update(m_Timer);
+				m_PhysicsEngine->CMyPhysicsEngine::Update_PhysX(m_Timer->DeltaTime());
 				Late_Update(m_Timer);
 				Draw();
 
@@ -363,6 +369,7 @@ void CMainApp::CalculateFrameStats()
 void CMainApp::Free()
 {
 	m_GameInstance->Release_Engine();
+	m_PhysicsEngine->Release_Instance();
 
 	Safe_Release(m_Timer);
 	Safe_Release(m_Input_Dev);

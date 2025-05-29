@@ -4,6 +4,7 @@
 #include "Timer.h"
 #include "RawInput.h"
 #include "GameInstance.h"
+#include "MyPhysicsEngine.h"
 
 BEGIN(Client)
 
@@ -51,6 +52,7 @@ private:
 	CGameInstance* m_GameInstance = { nullptr };
 	CRawInput* m_Input_Dev{ nullptr };
 	CTimer* m_Timer = { nullptr };
+	MyPhysicsEngine::CMyPhysicsEngine* m_PhysicsEngine = { nullptr };
 
 public:
 	virtual void Free() override;

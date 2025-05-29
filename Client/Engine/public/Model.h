@@ -34,6 +34,7 @@ public:
 	void Invalidate_Bones();
 	void Update();
 	HRESULT Render(_uint iMeshIndex);
+	void Make_Root_Combined_Matrix(_fmatrix WorldMat = XMMatrixIdentity());
 
 
 private:
