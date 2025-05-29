@@ -6,6 +6,7 @@
 #include "ServiceManager.h"
 
 
+
 CTank::CTank() : CRenderObject()
 {
 }
@@ -71,6 +72,7 @@ HRESULT CTank::Initialize(void* pArg)
     mat.NormalMapIndex = m_GameInstance->Add_Texture("Tank_M240P_N", CTexture::Create(L"../bin/Models/TankDDS/M240P_Normal.dds"));
     m_GameInstance->Add_Material("Tank_M240P", mat);
 
+	m_pPhysicsEngine = MyPhysicsEngine::CMyPhysicsEngine::Get_Instance();
 
     return S_OK;
 }
@@ -131,10 +133,43 @@ void CTank::Tick(float fTimeDelta)
         m_TransformCom->Turn({ 0.f,1.f,0.f,0.f }, -fTimeDelta);
 
     if (m_GameInstance->Key_Pressing(VK_UP))
-        m_TransformCom->Go_Right(-fTimeDelta * 10.f);
+        m_TransformCom->Turn(m_TransformCom->Get_State(CTransform::STATE_RIGHT), -fTimeDelta);
 
     if (m_GameInstance->Key_Pressing(VK_DOWN))
-        m_TransformCom->Go_Right(fTimeDelta * 10.f);*/
+        m_TransformCom->Turn(m_TransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta);
+
+    if (m_GameInstance->Key_Pressing(VK_SPACE))
+        m_TransformCom->Go_Straight(fTimeDelta);
+
+    if (m_GameInstance->Key_Pressing(VK_CONTROL))
+        m_TransformCom->Go_Backward(fTimeDelta);*/
+
+    if (m_GameInstance->Key_Down('U'))
+        m_TankConsrolState.leftThrust = true;
+
+    if (m_GameInstance->Key_Down('J'))
+        m_TankConsrolState.leftBrake = true;
+
+    if (m_GameInstance->Key_Down('O'))
+        m_TankConsrolState.rightThrust = true;
+
+    if (m_GameInstance->Key_Down('L'))
+        m_TankConsrolState.rightBrake = true;
+
+    if (m_GameInstance->Key_Up('U'))
+        m_TankConsrolState.leftThrust = false;
+
+    if (m_GameInstance->Key_Up('J'))
+        m_TankConsrolState.leftBrake = false;
+
+    if (m_GameInstance->Key_Up('O'))
+        m_TankConsrolState.rightThrust = false;
+
+    if (m_GameInstance->Key_Up('L'))
+        m_TankConsrolState.rightBrake = false;
+
+    m_pPhysicsEngine->Set_Tank_ControlState(m_TankConsrolState);
+
 
 
     /*if (m_GameInstance->Key_Down(VK_SPACE))
@@ -161,7 +196,20 @@ void CTank::LateTick(float fTimeDelta)
 {
     __super::LateTick(fTimeDelta);
 
-    //m_VIBuffer->Set_Matrix_to_Bone(0, m_TransformCom->Get_WorldMatrix());
+ 
+
+
+    PxMat44 pxMat = m_pPhysicsEngine->Get_Tank_Transform(MyPhysicsEngine::CMyPhysicsEngine::TC_CHASSIS);
+
+    // PxMat44은 row-major 이므로 열 단위로 XMVECTOR를 생성
+    XMMATRIX mat = XMMATRIX(
+        XMVectorSet(pxMat.column0.x, pxMat.column0.y, pxMat.column0.z, pxMat.column0.w),
+        XMVectorSet(pxMat.column1.x, pxMat.column1.y, pxMat.column1.z, pxMat.column1.w),
+        XMVectorSet(pxMat.column2.x, pxMat.column2.y, pxMat.column2.z, pxMat.column2.w),
+        XMVectorSet(pxMat.column3.x, pxMat.column3.y, pxMat.column3.z, pxMat.column3.w)
+    );
+
+    m_VIBuffer->Make_Root_Combined_Matrix(mat);//m_TransformCom->Get_WorldMatrix());
 
     m_VIBuffer->Invalidate_Bones();
 

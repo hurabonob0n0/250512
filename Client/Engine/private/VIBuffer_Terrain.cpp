@@ -69,7 +69,7 @@ void CVIBuffer_Terrain::Make_Buffer(const char* pHeightmapPath, float heightScal
         for (int x = 0; x < width; ++x)
         {
             int idx = z * width + x;
-            float y = (imgData[idx] ) * heightScale;
+            float y = (float)imgData[idx] * heightScale * 2.55f;
 
             m_vertices[idx].vPosition = XMFLOAT3(
                 (x - width / 2) * cellSpacing, y, (z - height / 2) * cellSpacing);

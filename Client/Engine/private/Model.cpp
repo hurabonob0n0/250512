@@ -120,6 +120,11 @@ HRESULT CModel::Render(_uint iMeshIndex)
 	return S_OK;
 }
 
+void CModel::Make_Root_Combined_Matrix(_fmatrix WorldMat)
+{
+	m_Bones[0]->Set_CombinedMatrix( m_Bones[0]->Get_BoneMatrix() * WorldMat);
+}
+
 
 
 HRESULT CModel::Ready_Meshes()
@@ -161,7 +166,7 @@ HRESULT CModel::Ready_Bones(aiNode* pAINode, _int iParentBoneIndex)
 
 void CModel::Set_Matrix_to_Bone(_uint iBoneIndex, _matrix Mat)
 {
-	m_Bones[iBoneIndex]->Mul_TransformationMatrix(Mat);
+	m_Bones[iBoneIndex]->Set_TransformationMatrix(Mat);
 }
 
 CModel * CModel::Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pContext, TYPE eModelType, const string & strModelFilePath, _fmatrix PivotMatrix)

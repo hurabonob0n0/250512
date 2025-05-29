@@ -10,21 +10,22 @@ HRESULT CBone::Initialize(const aiNode * pAINode, _int iParentBoneIndex)
 
 	aiMatrix4x4 mat = pAINode->mTransformation;
 
+	if(strstr(m_szName, "RootNode"))
+		aiMatrix4x4::RotationY(XM_PIDIV2, mat); // RootNode는 Y축 기준으로 90도 회전
+
 	if (strstr(m_szName, "$AssimpFbx$_Translation")) {
 		mat.a4 /= 100.f; // X
 		mat.b4 /= 100.f; // Y
 		mat.c4 /= 100.f; // Z
 	}
 
-	memcpy(&m_TransformationMatrix, &mat/*pAINode->mTransformation*/, sizeof(_float4x4));
+	memcpy(&m_TransformationMatrix, &mat, sizeof(_float4x4));
 
 	XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_TransformationMatrix)));
 
 	XMStoreFloat4x4(&m_CombindTransformationMatrix, XMMatrixIdentity());
 
 	m_iParentBoneIndex = iParentBoneIndex;
-
-	return S_OK;
 
 	//std::ofstream fout("../bin/BoneInfo.txt", std::ios::app); // append 모드
 	//if (fout.is_open())
@@ -39,6 +40,9 @@ HRESULT CBone::Initialize(const aiNode * pAINode, _int iParentBoneIndex)
 	//	}
 	//	fout.close();
 	//}
+	
+	return S_OK;
+
 
 	//strcpy_s(m_szName, pAINode->mName.data);
 
@@ -65,10 +69,11 @@ HRESULT CBone::Initialize(const aiNode * pAINode, _int iParentBoneIndex)
 
 void CBone::Invalidate_CombinedTransformationMatrix(const vector<CBone*>& Bones)
 {
-	if (-1 == m_iParentBoneIndex)
+	/*if (-1 == m_iParentBoneIndex)
 		m_CombindTransformationMatrix = m_TransformationMatrix;
 
-	else
+	else*/
+	if(m_iParentBoneIndex != -1)
 	{
 		/* m_CombindTransformationMatrix  = 나만의 상태행렬(TransformationMatrix) * 부모의 최종행렬(Parent`s CombinedMatrix) */
 		XMStoreFloat4x4(&m_CombindTransformationMatrix, 
